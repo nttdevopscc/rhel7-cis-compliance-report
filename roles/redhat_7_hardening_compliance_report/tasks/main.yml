@@ -28,11 +28,11 @@
   when: groups[group_name] is defined
   delegate_to: localhost
 
-- name: Generate CSV hardening compliance report to /home/awx/linux_hardening_compliance_summary_csv
-  template:
-    src: "./files/generate_csv.j2"
-    dest: "/home/awx/linux_hardening_compliance_summary_csv/redhat_hardening_compliance_summary.csv"
-  when: groups[group_name] is defined
-  delegate_to: localhost
-  run_once: true
+# - name: Generate CSV hardening compliance report to /home/awx/linux_hardening_compliance_summary_csv
+#   template:
+#     src: "./files/generate_csv.j2"
+#     dest: "/home/awx/linux_hardening_compliance_summary_csv/redhat_hardening_compliance_summary.csv"
+#   when: groups[group_name] is defined
+#   delegate_to: localhost
+#   run_once: true
 
