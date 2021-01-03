@@ -1,0 +1,46 @@
+---
+- name: Get a summary of compliance to the rules | {{ redhat_7_summary_baseline_key }} | Display current value of variables
+  debug:
+    msg: |-
+      redhat_7_summary_baseline_key: {{ redhat_7_summary_baseline_key }}
+    verbosity: 2
+
+- name: Get a summary of compliance to the rules | {{ redhat_7_summary_baseline_key }} | Set values for count variables
+  set_fact:
+    redhat_7_summary_compliant_count: 0
+    redhat_7_summary_non_compliant_count: 0
+    redhat_7_summary_risk_accepted_count: 0
+
+- name: Get a summary of compliance to the rules | {{ redhat_7_summary_baseline_key }} | Get sum of all compliant managed nodes
+  set_fact:
+    redhat_7_summary_compliant_count: "{{ redhat_7_summary_compliant_count | default(0) | int + 1 if hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key]['compliance'] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key]['compliance'] == 'C' else redhat_7_summary_compliant_count }}"
+    redhat_7_summary_non_compliant_count: "{{ redhat_7_summary_non_compliant_count | default(0) | int + 1 if hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key]['compliance'] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key]['compliance'] == 'NC' else redhat_7_summary_non_compliant_count }}"
+    redhat_7_summary_risk_accepted_count: "{{ redhat_7_summary_risk_accepted_count | default(0) | int + 1 if hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key]['compliance'] is defined and hostvars[redhat_7_summary_host]['redhat_7_hardening_compliance_baseline_data'][redhat_7_summary_baseline_key]['compliance'] == 'RA' else redhat_7_summary_risk_accepted_count }}"
+  loop: "{{ groups[group_name] }}"
+  loop_control:
+    loop_var: redhat_7_summary_host
+  when: >-
+    groups[group_name] is defined
+
+- name: Get a summary of compliance to the rules | {{ redhat_7_summary_baseline_key }} | Set final values for count variables
+  set_fact:
+    redhat_7_hardening_compliance_summary_item:
+      - baseline: "{{ redhat_7_summary_baseline_key }}"
+        compliant: "{{ redhat_7_summary_compliant_count }}"
+        non_compliant: "{{ redhat_7_summary_non_compliant_count }}"
+        risk_accepted: "{{ redhat_7_summary_risk_accepted_count }}"
+        total: "{{ redhat_7_summary_compliant_count | int + redhat_7_summary_non_compliant_count | int + redhat_7_summary_risk_accepted_count | int }}"
+
+- name: Get a summary of compliance to the rules | {{ redhat_7_summary_baseline_key }} | Add to the summary dictionary
+  set_fact:
+    redhat_7_hardening_compliance_summary: "{{ redhat_7_hardening_compliance_summary + redhat_7_hardening_compliance_summary_item }}"
+
+- name: Get a summary of compliance to the rules | {{ redhat_7_summary_baseline_key }} | Display summary item data
+  debug:
+    msg: |-
+      baseline: '{{ redhat_7_summary_baseline_key }}'
+      compliant: '{{ redhat_7_summary_compliant_count }}'
+      non_compliant: '{{ redhat_7_summary_non_compliant_count }}'
+      risk_accepted: '{{ redhat_7_summary_risk_accepted_count }}'
+      total: '{{ redhat_7_summary_compliant_count | int + redhat_7_summary_non_compliant_count | int + redhat_7_summary_risk_accepted_count | int }}'
+    verbosity: 2

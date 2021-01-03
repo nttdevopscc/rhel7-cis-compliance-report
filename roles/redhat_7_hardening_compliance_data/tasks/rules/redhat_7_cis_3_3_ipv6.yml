@@ -1,0 +1,64 @@
+---
+- name: 3.3.1
+  block:
+    - name: 3.3.1 Ensure IPv6 router advertisements are not accepted
+      shell: "{{ item }}"
+      loop:
+        - sysctl net.ipv6.conf.all.accept_ra
+        - sysctl net.ipv6.conf.default.accept_ra
+        - grep "net\.ipv6\.conf\.all\.accept_ra" /etc/sysctl.conf
+        - grep "net\.ipv6\.conf\.default\.accept_ra" /etc/sysctl.conf
+      register: redhat_7_cis_3_3_1_out
+
+    - name: 3.3.1 Ensure IPv6 router advertisements are not accepted | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_3_3_1"
+        redhat_7_cis_rule_expected_values:
+          - net.ipv6.conf.all.accept_ra = 0
+          - net.ipv6.conf.default.accept_ra = 0
+          - net.ipv6.conf.all.accept_ra = 0
+          - net.ipv6.conf.default.accept_ra = 0
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_3_3_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_3_3_1 | bool
+
+- name: 3.3.2
+  block:
+    - name: 3.3.2 Ensure IPv6 redirects are not accepted
+      shell: "{{ item }}"
+      loop:
+        - sysctl net.ipv6.conf.all.accept_redirects
+        - sysctl net.ipv6.conf.default.accept_redirects
+        - grep "net\.ipv6\.conf\.all\.accept_redirect" /etc/sysctl.conf
+        - grep "net\.ipv6\.conf\.default\.accept_redirect" /etc/sysctl.conf
+      register: redhat_7_cis_3_3_2_out
+
+    - name: 3.3.2 Ensure IPv6 redirects are not accepted | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_3_3_2"
+        redhat_7_cis_rule_expected_values:
+          - "net.ipv6.conf.all.accept_redirects = 0"
+          - "net.ipv6.conf.default.accept_redirects = 0"
+          - "net.ipv6.conf.all.accept_redirects = 0"
+          - "net.ipv6.conf.default.accept_redirects = 0"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_3_3_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_3_3_2 | bool
+
+- name: 3.3.3
+  block:
+    - name: 3.3.3 Ensure IPv6 is disabled
+      shell: grep "^\s*linux" /boot/grub2/grub.cfg
+      register: redhat_7_cis_3_3_3_out
+
+    - name: 3.3.3 Ensure IPv6 is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_3_3_3"
+        redhat_7_cis_rule_expected_values:
+          - "ipv6.disable=1"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_3_3_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_3_3_3 | bool

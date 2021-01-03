@@ -1,0 +1,16 @@
+---
+- name: 1.2.2
+  block:
+    - name: Ensure gpgcheck is globally activated
+      shell: grep ^gpgcheck /etc/yum.conf
+      register: redhat_7_cis_1_2_2_out      
+
+    - name: 1.2.2 Ensure gpgcheck is globally activated | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_2_2"
+        redhat_7_cis_rule_expected_values:
+          - "gpgcheck=1"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_2_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_2_2 | bool

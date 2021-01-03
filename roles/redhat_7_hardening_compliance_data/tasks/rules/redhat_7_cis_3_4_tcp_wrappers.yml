@@ -1,0 +1,52 @@
+---
+- name: 3.4.1
+  block:
+    - name: Ensure TCP Wrappers is installed
+      shell: "{{ item }}"
+      loop:
+        - rpm -q tcp_wrappers
+        - rpm -q tcp_wrappers-libs
+      register: redhat_7_cis_3_4_1_out
+
+    - name: 3.4.1 Ensure TCP Wrappers is installed | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_3_4_1"
+        redhat_7_cis_rule_expected_values:
+          - "tcp_wrappers"
+          - "tcp_wrappers-libs"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_3_4_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_3_4_1 | bool
+
+- name: 3.4.4
+  block:
+    - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured
+      shell: stat /etc/hosts.allow -c "%a %U %G"
+      register: redhat_7_cis_3_4_4_out
+
+    - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_3_4_4"
+        redhat_7_cis_rule_expected_values:
+          - "644 root root"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_3_4_4_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_3_4_4 | bool
+
+- name: 3.4.5
+  block:
+    - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured
+      shell: stat /etc/hosts.deny -c "%a %U %G"
+      register: redhat_7_cis_3_4_5_out
+
+    - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_3_4_5"
+        redhat_7_cis_rule_expected_values:
+          - "644 root root"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_3_4_5_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_3_4_5 | bool
