@@ -6,6 +6,8 @@
   ignore_errors: true
   ignore_unreachable: true
   become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python2
   roles:
     - redhat_7_hardening_compliance_data
 
@@ -14,6 +16,8 @@
   ignore_errors: true
   ignore_unreachable: true
   become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python2
   roles:
     - redhat_7_hardening_compliance_audit
 
@@ -21,5 +25,7 @@
   hosts: rhel7_group
   ignore_errors: true
   ignore_unreachable: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python2
   roles:
     - redhat_7_hardening_compliance_report
