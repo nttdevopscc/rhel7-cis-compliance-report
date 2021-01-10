@@ -28,7 +28,7 @@
 #   when: groups[group_name] is defined
 #   delegate_to: localhost
 
-- name: Generate hardening compliance report to /home/awx/linux_hardening_compliance_report
+- name: Generate hardening compliance report to /home/ansible/linux_hardening_compliance_report
   template:
     src: "./files/separate_report_per_server_hardening_compliance_report.j2"
     dest: "/home/ansible/linux_hardening_compliance_report/{{ ansible_net_hostname + ansible_date_time['date'] + '_' + (ansible_date_time['time'] | replace(':','')) }}.html"
