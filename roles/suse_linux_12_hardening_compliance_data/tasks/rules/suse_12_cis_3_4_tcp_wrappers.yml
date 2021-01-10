@@ -1,0 +1,32 @@
+---
+- name: 3.4.4
+  block:
+    - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured
+      shell: stat /etc/hosts.allow -c "%a %U %G"
+      register: suse_12_cis_3_4_4_out
+
+    - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_3_4_4"
+        suse_12_cis_rule_expected_values:
+          - "644 root root"
+        suse_12_cis_rule_output: "{{ suse_12_cis_3_4_4_out }}"
+  ignore_errors: true
+  when: suse_12_cis_3_4_4 | bool
+
+- name: 3.4.5
+  block:
+    - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured
+      shell: stat /etc/hosts.deny -c "%a %U %G"
+      register: suse_12_cis_3_4_5_out
+
+    - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_3_4_5"
+        suse_12_cis_rule_expected_values:
+          - "644 root root"
+        suse_12_cis_rule_output: "{{ suse_12_cis_3_4_5_out }}"
+  ignore_errors: true
+  when: suse_12_cis_3_4_5 | bool

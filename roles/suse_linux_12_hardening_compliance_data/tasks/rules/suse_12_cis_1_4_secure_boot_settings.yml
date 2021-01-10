@@ -1,0 +1,36 @@
+---
+- name: 1.4.1
+  block:
+    - name: 1.4.1 Ensure permissions on bootloader config are configured
+      shell: stat /boot/grub2/grub.cfg -c "%a %U %G"
+      register: suse_12_cis_1_4_1_out
+
+    - name: 1.4.1 Ensure permissions on bootloader config are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_4_1"
+        suse_12_cis_rule_expected_values:
+          - "600 root root"
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_4_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_4_1 | bool
+
+- name: 1.4.3
+  block:
+    - name: 1.4.3 Ensure authentication required for single user mode
+      shell: "{{ item }}"
+      loop:
+        - grep /sbin/sulogin /usr/lib/systemd/system/rescue.service
+        - grep /sbin/sulogin /usr/lib/systemd/system/emergency.service
+      register: suse_12_cis_1_4_3_out
+
+    - name: 1.4.3 Ensure authentication required for single user mode | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_4_3"
+        suse_12_cis_rule_expected_values:
+          - "/usr/sbin/sulogin"
+          - "/usr/sbin/sulogin"
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_4_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_4_3 | bool

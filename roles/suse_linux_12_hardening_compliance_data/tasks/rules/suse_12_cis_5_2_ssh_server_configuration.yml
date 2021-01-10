@@ -1,0 +1,202 @@
+---
+- name: 5.2.1
+  block:
+    - name: 5.2.1 Ensure permissions on /etc/ssh/sshd_config are configured
+      shell: stat /etc/ssh/sshd_config -c "%a %U %G"
+      register: suse_12_cis_5_2_1_out
+
+    - name: 5.2.1 Ensure permissions on /etc/ssh/sshd_config are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_1"
+        suse_12_cis_rule_expected_values:
+          - "600 root root"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_1 | bool
+
+- name: 5.2.2
+  block:
+    - name: 5.2.2 Ensure SSH Protocol is set to 2
+      shell: grep "^Protocol" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_2_out
+
+    - name: 5.2.2 Ensure SSH Protocol is set to 2 | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_2"
+        suse_12_cis_rule_expected_values:
+          - "Protocol 2"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_2 | bool
+
+- name: 5.2.3
+  block:
+    - name: 5.2.3 Ensure SSH LogLevel is set to INFO
+      shell: grep "^LogLevel" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_3_out
+
+    - name: 5.2.3 Ensure SSH LogLevel is set to INFO | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_3"
+        suse_12_cis_rule_expected_values:
+          - "LogLevel INFO"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_3 | bool
+
+- name: 5.2.4
+  block:
+    - name: 5.2.4 Ensure SSH X11 forwarding is disabled
+      shell: grep "^X11Forwarding" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_4_out
+
+    - name: 5.2.4 Ensure SSH X11 forwarding is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_4"
+        suse_12_cis_rule_expected_values:
+          - "X11Forwarding no"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_4_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_4 | bool
+
+- name: 5.2.5
+  block:
+    - name: 5.2.5 Ensure SSH MaxAuthTries is set to 4 or less
+      shell: grep "^MaxAuthTries" /etc/ssh/sshd_config | grep -v ^#
+      register: suse_12_cis_5_2_5_out
+
+    - name: 5.2.5 Ensure SSH MaxAuthTries is set to 4 or less | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_5"
+        suse_12_cis_rule_expected_values:
+          - - "MaxAuthTries"
+            - - "0"
+              - "4"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_5_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_5 | bool
+
+- name: 5.2.6
+  block:
+    - name: 5.2.6 Ensure SSH IgnoreRhosts is enabled
+      shell: grep "^IgnoreRhosts" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_6_out
+
+    - name: 5.2.6 Ensure SSH IgnoreRhosts is enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_6"
+        suse_12_cis_rule_expected_values:
+          - "IgnoreRhosts yes"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_6_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_6 | bool
+
+- name: 5.2.7
+  block:
+    - name: 5.2.7 Ensure SSH HostbasedAuthentication is disabled
+      shell: grep "^HostbasedAuthentication" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_7_out
+
+    - name: 5.2.7 Ensure SSH HostbasedAuthentication is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_7"
+        suse_12_cis_rule_expected_values:
+          - "HostbasedAuthentication no"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_7_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_7 | bool
+
+- name: 5.2.8
+  block:
+    - name: 5.2.8 Ensure SSH root login is disabled
+      shell: grep "^PermitRootLogin" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_8_out
+
+    - name: 5.2.8 Ensure SSH root login is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_8"
+        suse_12_cis_rule_expected_values:
+          - "PermitRootLogin no"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_8_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_8 | bool
+
+- name: 5.2.9
+  block:
+    - name: 5.2.9 Ensure SSH PermitEmptyPasswords is disabled
+      shell: grep "^PermitEmptyPasswords" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_9_out
+
+    - name: 5.2.9 Ensure SSH PermitEmptyPasswords is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_9"
+        suse_12_cis_rule_expected_values:
+          - "PermitEmptyPasswords no"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_9_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_9 | bool
+
+- name: 5.2.10
+  block:
+    - name: 5.2.10 Ensure SSH PermitUserEnvironment is disabled
+      shell: grep ^PermitUserEnvironment /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_10_out
+
+    - name: 5.2.10 Ensure SSH PermitUserEnvironment is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_10"
+        suse_12_cis_rule_expected_values:
+          - "PermitUserEnvironment no"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_10_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_10 | bool
+
+- name: 5.2.12
+  block:
+    - name: 5.2.12 Ensure SSH Idle Timeout Interval is configured
+      shell: "{{ item }}"
+      loop:
+        - grep "^ClientAliveInterval" /etc/ssh/sshd_config | grep -v ^#
+        - grep "^ClientAliveCountMax" /etc/ssh/sshd_config | grep -v ^#
+      register: suse_12_cis_5_2_12_out
+
+    - name: 5.2.12 Ensure SSH Idle Timeout Interval is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_12"
+        suse_12_cis_rule_expected_values:
+          - - "ClientAliveInterval"
+            - - "1"
+              - "300"
+          - - "ClientAliveCountMax"
+            - - "0"
+              - "3"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_12_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_12 | bool
+
+- name: 5.2.15
+  block:
+    - name: 5.2.15 Ensure SSH warning banner is configured
+      shell: grep "^Banner" /etc/ssh/sshd_config
+      register: suse_12_cis_5_2_15_out
+
+    - name: 5.2.15 Ensure SSH warning banner is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_2_15"
+        suse_12_cis_rule_expected_values:
+          - "Banner /etc/issue.net"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_2_15_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_2_15 | bool

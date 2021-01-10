@@ -1,0 +1,292 @@
+---
+- name: 2.2.2
+  block:
+    - name: 2.2.2 Ensure X Window System is not installed
+      shell: rpm -qa xorg-x11*
+      register: suse_12_cis_2_2_2_out
+
+    - name: 2.2.2 Ensure X Window System is not installed | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_2"
+        suse_12_cis_rule_expected_values:
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_2 | bool
+
+- name: 2.2.3
+  block:
+    - name: 2.2.3 Ensure Avahi Server is not enabled
+      shell: systemctl is-enabled avahi-daemon | cat
+      register: suse_12_cis_2_2_3_out
+
+    - name: 2.2.3 Ensure Avahi Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_3"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_3 | bool
+
+- name: 2.2.4
+  block:
+    - name: 2.2.4 Ensure xinetd is not enabled
+      shell: systemctl is-enabled cups | cat
+      register: suse_12_cis_2_2_4_out
+
+    - name: 2.2.4 Ensure xinetd is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_4"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_4_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_4 | bool
+
+- name: 2.2.5
+  block:
+    - name: 2.2.5 Ensure DHCP Server is not enabled
+      shell: systemctl is-enabled dhcpd | cat
+      register: suse_12_cis_2_2_5_out
+
+    - name: 2.2.5 Ensure DHCP Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_5"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_5_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_5 | bool
+
+- name: 2.2.6
+  block:
+    - name: 2.2.6 Ensure LDAP server is not enabled
+      shell: systemctl is-enabled slapd | cat
+      register: suse_12_cis_2_2_6_out
+
+    - name: 2.2.6 Ensure LDAP server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_6"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_6_out}}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_6 | bool
+
+- name: 2.2.7
+  block:
+    - name: 2.2.7 Ensure NFS and RPC are not enabled
+      shell: "{{ item }}"
+      loop:
+        - systemctl is-enabled nfs | cat
+        - systemctl is-enabled rpcbind | cat
+      register: suse_12_cis_2_2_7_out
+
+    - name: 2.2.7 Ensure NFS and RPC are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_7"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_7_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_7 | bool
+
+- name: 2.2.8
+  block:
+    - name: 2.2.8 Ensure DNS Server is not enabled
+      shell: systemctl is-enabled named | cat
+      register: suse_12_cis_2_2_8_out
+
+    - name: 2.2.8 Ensure DNS Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_8"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_8_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_8 | bool
+
+- name: 2.2.9
+  block:
+    - name: 2.2.9 Ensure FTP Server is not enabled
+      shell: systemctl is-enabled vsftpd | cat
+      register: suse_12_cis_2_2_9_out
+
+    - name: 2.2.9 Ensure FTP Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_9"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_9_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_9 | bool
+
+- name: 2.2.10
+  block:
+    - name: 2.2.10 Ensure HTTP server is not enabled
+      shell: systemctl is-enabled apache2 | cat
+      register: suse_12_cis_2_2_10_out
+
+    - name: 2.2.10 Ensure HTTP server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_10"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_10_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_10 | bool
+
+- name: 2.2.11
+  block:
+    - name: 2.2.11 Ensure IMAP and POP3 server is not enabled
+      shell: systemctl is-enabled dovecot | cat
+      register: suse_12_cis_2_2_11_out
+
+    - name: 2.2.11 Ensure IMAP and POP3 server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_11"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_11_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_11 | bool
+
+- name: 2.2.12
+  block:
+    - name: 2.2.12 Ensure Samba is not enabled
+      shell: systemctl is-enabled smb | cat
+      register: suse_12_cis_2_2_12_out
+
+    - name: 2.2.12 Ensure Samba is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_12"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_12_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_12 | bool
+
+- name: 2.2.13
+  block:
+    - name: 2.2.13 Ensure HTTP Proxy Server is not enabled
+      shell: systemctl is-enabled squid | cat
+      register: suse_12_cis_2_2_13_out
+
+    - name: 2.2.13 Ensure HTTP Proxy Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_13"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_13_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_13 | bool
+
+- name: 2.2.14
+  block:
+    - name: 2.2.14 Ensure SNMP Server is not enabled
+      shell: systemctl is-enabled snmpd | cat
+      register: suse_12_cis_2_2_14_out
+
+    - name: 2.2.14 Ensure SNMP Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_14"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_14_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_14 | bool
+
+- name: 2.2.15
+  block:
+    - name: 2.2.15 Ensure mail transfer agent is configured for local-only mode
+      shell: netstat -an | grep LIST | grep "127.0.0.1:25[[:space:]]" | awk '{$2=$2};1'
+      register: suse_12_cis_2_2_15_out
+
+    - name: 2.2.15 Ensure mail transfer agent is configured for local-only mode | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_15"
+        suse_12_cis_rule_expected_values:
+          - "tcp 0 0 127.0.0.1:25 0.0.0.0:* LISTEN"
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_15_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_15 | bool
+
+- name: 2.2.16
+  block:
+    - name: 2.2.16 Ensure NIS Server is not enabled | cat
+      shell: systemctl is-enabled ypserv
+      register: suse_12_cis_2_2_16_out
+
+    - name: 2.2.16 Ensure NIS Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_16"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_16_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_16 | bool
+
+- name: 2.2.17
+  block:
+    - name: 2.2.17 Ensure tftp server is not enabled
+      shell: systemctl is-enabled vsftpd | cat
+      register: suse_12_cis_2_2_17_out
+
+    - name: 2.2.17 Ensure tftp server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_17"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_17_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_17 | bool
+
+- name: 2.2.18
+  block:
+    - name: 2.2.18 Ensure rsync service is not enabled
+      shell: systemctl is-enabled rsyncd | cat
+      register: suse_12_cis_2_2_18_out
+
+    - name: 2.2.18 Ensure rsync service is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_18"
+        suse_12_cis_rule_expected_values:
+          - - disabled
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_18_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_18 | bool

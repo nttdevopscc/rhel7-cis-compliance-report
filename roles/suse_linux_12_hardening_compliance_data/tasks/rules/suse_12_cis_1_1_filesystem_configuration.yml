@@ -1,0 +1,32 @@
+---
+- name: 1.1.2
+  block:
+    - name: 1.1.2 Ensure separate partition exists for /tmp
+      shell: mount | grep /tmp
+      register: suse_12_cis_1_1_2_out      
+
+    - name: 1.1.2 Ensure separate partition exists for /tmp | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_2"
+        suse_12_cis_rule_expected_values:
+          - "/tmp "
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_2 | bool
+
+- name: 1.1.22
+  block:
+    - name: 1.1.22 Disable Automounting
+      shell: systemctl is-enabled autofs
+      register: suse_12_cis_1_1_22_out      
+
+    - name: 1.1.22 Disable Automounting | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_22"
+        suse_12_cis_rule_expected_values:
+          - "disabled"
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_22_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_22 | bool

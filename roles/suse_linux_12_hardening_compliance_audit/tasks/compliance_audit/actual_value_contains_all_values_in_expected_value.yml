@@ -1,0 +1,12 @@
+---
+# actual_value_idx - Index of the actual value
+# actual_value - Actual value
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Check if each expected value is in each actual value | Check if all values in expected values is in each actual value
+  set_fact:
+    suse_12_audit_match_count: "{{ suse_12_audit_match_count  | default(0) | int + 1 }}"
+  when:
+    - suse_12_rules[suse_12_rule_key]['actual_values'][actual_value_idx] | regex(value_item)
+  loop: "{{ suse_12_rules[suse_12_rule_key]['expected_values'][actual_value_idx] }}"
+  loop_control:
+    loop_var: value_item

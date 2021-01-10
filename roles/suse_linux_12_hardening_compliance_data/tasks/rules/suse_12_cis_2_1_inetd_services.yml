@@ -1,0 +1,189 @@
+---
+- name: 2.1.1
+  block:
+    - name: 2.1.1 Ensure chargen services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig chargen | cat
+        - chkconfig chargen-udp | cat
+      register: suse_12_cis_2_1_1_out
+
+    - name: 2.1.1 Ensure chargen services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_1"
+        suse_12_cis_rule_expected_values:
+          - - chargen  off
+            - ""
+          - - chargen-udp  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_1 | bool
+
+- name: 2.1.2
+  block:
+    - name: 2.1.2 Ensure daytime services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig daytime | cat
+        - chkconfig daytime-udp | cat
+      register: suse_12_cis_2_1_2_out
+
+    - name: 2.1.2 Ensure daytime services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_2"
+        suse_12_cis_rule_expected_values:
+          - - daytime  off
+            - ""
+          - - daytime-udp  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_2 | bool
+
+- name: 2.1.3
+  block:
+    - name: 2.1.3 Ensure discard services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig discard | cat
+        - chkconfig discard-udp | cat
+      register: suse_12_cis_2_1_3_out
+
+    - name: 2.1.3 Ensure discard services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_3"
+        suse_12_cis_rule_expected_values:
+          - - discard  off
+            - ""
+          - - discard-udp  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_3 | bool
+
+- name: 2.1.4
+  block:
+    - name: 2.1.4 Ensure echo services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig echo | cat
+        - chkconfig echo-udp | cat
+      register: suse_12_cis_2_1_4_out
+
+    - name: 2.1.4 Ensure echo services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_4"
+        suse_12_cis_rule_expected_values:
+          - - echo  off
+            - ""
+          - - echo-udp  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_4_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_4 | bool
+
+- name: 2.1.5
+  block:
+    - name: 2.1.5 Ensure time services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig time | cat
+        - chkconfig time-udp | cat
+      register: suse_12_cis_2_1_5_out
+
+    - name: 2.1.5 Ensure time services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_5"
+        suse_12_cis_rule_expected_values:
+          - - time  off
+            - ""
+          - - time-udp  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_5_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_5 | bool
+
+- name: 2.1.6
+  block:
+    - name: 2.1.6 Ensure rsh server is not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig rsh | cat
+        - chkconfig rlogin | cat
+        - chkconfig rexec | cat
+      register: suse_12_cis_2_1_6_out
+
+    - name: 2.1.6 Ensure rsh server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_6"
+        suse_12_cis_rule_expected_values:
+          - - rsh  off
+            - ""
+          - - rlogin  off
+            - ""
+          - - rexec  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_6_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_6 | bool
+
+- name: 2.1.7
+  block:
+    - name: 2.1.7 Ensure talk server is not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig talk | cat
+      register: suse_12_cis_2_1_7_out
+
+    - name: 2.1.7 Ensure talk server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_7"
+        suse_12_cis_rule_expected_values:
+          - - talk  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_7_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_7 | bool
+
+- name: 2.1.8
+  block:
+    - name: 2.1.8 Ensure telnet server is not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig telnet | cat
+      register: suse_12_cis_2_1_8_out
+
+    - name: 2.1.8 Ensure telnet server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_8"
+        suse_12_cis_rule_expected_values:
+          - - telnet  off
+            - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_8_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_8 | bool
+
+- name: 2.1.11
+  block:
+    - name: 2.1.11 Ensure xinetd is not enabled
+      shell: systemctl is-enabled xinetd | cat
+      register: suse_12_cis_2_1_11_out
+
+    - name: 2.1.11 Ensure xinetd is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_1_11"
+        suse_12_cis_rule_expected_values:
+          - disabled
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_1_11_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_1_11 | bool

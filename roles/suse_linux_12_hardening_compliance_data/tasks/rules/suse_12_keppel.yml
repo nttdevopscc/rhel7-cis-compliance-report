@@ -1,0 +1,349 @@
+---
+- name: 7.5.6
+  block:
+    - name: 7.5.6 SuSEfirewall2 is active
+      shell: systemctl is-active SuSEfirewall2
+      register: suse_12_keppel_7_5_6_out
+
+    - name: 7.5.6 SuSEfirewall2 is active | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "keppel_7_5_6"
+        suse_12_cis_rule_expected_values:
+          - "active"
+        suse_12_cis_rule_output: "{{ suse_12_keppel_7_5_6_out }}"
+  ignore_errors: true
+  when: suse_12_keppel_7_5_6 | bool
+
+- name: 8.2.3
+  block:
+    - name: 8.2.3 Configure /etc/rsyslog.conf
+      shell: "{{ item }}"
+      loop:
+        - egrep "^\*\.emerg\s+\:omusrmsg\:\*" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^mail\.\*\s+\-\/var\/log\/mail" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^mail\.info\s+\-\/var\/log\/mail\.info" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^mail\.warning\s+\-\/var\/log\/mail\.warn" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^mail\.err\s+\/var\/log\/mail\.err" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^news\.crit\s+\-\/var\/log\/news\/news\.crit" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^news\.err\s+\-\/var\/log\/news\/news\.err" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^news\.notice\s+\-\/var\/log\/news\/news\.notice" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^\*\.\=warning\;\*\.\=err\s+\-\/var\/log\/warn" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^\*\.crit\s+\/var\/log\/warn" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^\*\.\*\;mail\.none\;news\.none\s+\-\/var\/log\/messages" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^local0\.\*\;local1\.\*\s+\-\/var\/log\/localmessages" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^local2\.\*\;local3\.\*\s+\-\/var\/log\/localmessages" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^local4\.\*\;local5\.\*\s+\-\/var\/log\/localmessages" /etc/rsyslog.conf | awk '{$2=$2};1'
+        - egrep "^local6\.\*\;local7\.\*\s+\-\/var\/log\/localmessages" /etc/rsyslog.conf | awk '{$2=$2};1'
+      register: suse_12_keppel_8_2_3_out
+
+    - name: 8.2.3 Configure /etc/rsyslog.conf | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "keppel_8_2_3"
+        suse_12_cis_rule_expected_values:
+          - "*.emerg :omusrmsg:*"
+          - "mail.* -/var/log/mail"
+          - "mail.info -/var/log/mail.info"
+          - "mail.warning -/var/log/mail.warn"
+          - "mail.err /var/log/mail.err"
+          - "news.crit -/var/log/news/news.crit"
+          - "news.err -/var/log/news/news.err"
+          - "news.notice -/var/log/news/news.notice"
+          - "*.=warning;*.=err -/var/log/warn"
+          - "*.crit /var/log/warn"
+          - "*.*;mail.none;news.none -/var/log/messages"
+          - "local0.*;local1.* -/var/log/localmessages"
+          - "local2.*;local3.* -/var/log/localmessages"
+          - "local4.*;local5.* -/var/log/localmessages"
+          - "local6.*;local7.* -/var/log/localmessages"
+        suse_12_cis_rule_output: "{{ suse_12_keppel_8_2_3_out }}"
+  ignore_errors: true
+  when: suse_12_keppel_8_2_3 | bool
+
+- name: 10.1.1
+  block:
+    - name: 10.1.1 Set Password Expiration Days
+      shell: grep ^PASS_MAX_DAYS /etc/login.defs | grep -v "^#\|^$"
+      register: suse_12_keppel_10_1_1_out
+
+    - name: 10.1.1 Set Password Expiration Days | Get list of users
+      shell: >-
+        egrep ^[^:]+:[^\!*] /etc/shadow | cut -d: -f1
+      register: suse_12_keppel_10_1_1_users
+
+    - name: 10.1.1 Set Password Expiration Days | Get configuration per user
+      shell: >-
+        chage --list {{ suse_12_keppel_10_1_1_user }} | grep "^Maximum number of days between password change"
+      register: suse_12_keppel_10_1_1_user_configuration
+      loop: "{{ suse_12_keppel_10_1_1_users['stdout_lines'] }}"
+      loop_control:
+        loop_var: suse_12_keppel_10_1_1_user
+
+    - name: Set Rule Values | keppel_10_1_1 | Set expected values
+      set_fact:
+        suse_12_rules: "{{ suse_12_rules | combine({'keppel_10_1_1': {'expected_values': suse_12_rules['keppel_10_1_1']['expected_values'] + [suse_12_keppel_10_1_1_expected_value_item]}}, recursive=true) }}"
+      loop:
+        - "PASS_MAX_DAYS[\\s]+90"
+        - "Maximum number of days between password change[\\s]+:[\\s]+90"
+      loop_control:
+        loop_var: suse_12_keppel_10_1_1_expected_value_item
+
+    - name: Set Rule Values | keppel_10_1_1 | Set actual values
+      block:
+        - name: Set Rule Values | keppel_10_1_1 | Set actual values | Initialize variables
+          set_fact:
+            suse_12_keppel_10_1_1_actual_values: []
+            suse_12_keppel_10_1_1_user_configuration_actual_values: []
+
+        - name: Set Rule Values | keppel_10_1_1 | Set actual values | Get user configuration actual values
+          set_fact:
+            suse_12_keppel_10_1_1_user_configuration_actual_values: "{{ suse_12_keppel_10_1_1_user_configuration_actual_values + [suse_12_keppel_10_1_1_user_configuration_item['stderr'] if suse_12_keppel_10_1_1_user_configuration_item['stderr']|length and suse_12_keppel_10_1_1_user_configuration_item['rc']|int == 1 else suse_12_keppel_10_1_1_user_configuration_item['stdout'] | trim] }}"
+          loop: "{{ suse_12_keppel_10_1_1_user_configuration['results'] }}"
+          loop_control:
+            loop_var: suse_12_keppel_10_1_1_user_configuration_item
+          when:
+            - suse_12_keppel_10_1_1_user_configuration is defined
+            - suse_12_keppel_10_1_1_user_configuration['results'] is defined
+
+        - name: Set Rule Values | keppel_10_1_1 | Set actual values | Get complete actual values
+          set_fact:
+            suse_12_keppel_10_1_1_actual_values:
+              - "{{ suse_12_keppel_10_1_1_out['stderr'] if suse_12_keppel_10_1_1_out['stderr']|length and suse_12_keppel_10_1_1_out['rc']|int == 1 else suse_12_keppel_10_1_1_out['stdout'] | trim }}"
+              - "{{ suse_12_keppel_10_1_1_user_configuration_actual_values }}"
+          when: suse_12_keppel_10_1_1_out is defined
+
+        - name: Set Rule Values | keppel_10_1_1 | Set actual values | Set actual values in suse_12_rules
+          set_fact:
+            suse_12_rules: "{{ suse_12_rules | combine({'keppel_10_1_1': {'actual_values': suse_12_keppel_10_1_1_actual_values }}, recursive=true) }}"
+      when:
+        - suse_12_keppel_10_1_1_user_configuration is defined
+        - suse_12_keppel_10_1_1_user_configuration['results'] is defined
+
+    - name: Set Rule Values | keppel_10_1_1 | Display rule values
+      debug:
+        msg: |-
+          suse_12_rules['keppel_10_1_1']['expected_values']: {{ suse_12_rules['keppel_10_1_1']['expected_values'] }}
+          suse_12_rules['keppel_10_1_1']['actual_values']: {{ suse_12_rules['keppel_10_1_1']['actual_values'] }}
+        verbosity: 2
+  ignore_errors: true
+  when: suse_12_keppel_10_1_1 | bool
+
+- name: 10.1.2
+  block:
+    - name: 10.1.2 Set Password Change Minimum Number of Days
+      shell: grep ^PASS_MIN_DAYS /etc/login.defs
+      register: suse_12_keppel_10_1_2_out
+
+    - name: 10.1.2 Set Password Change Minimum Number of Days | Get list of users
+      shell: >-
+        egrep ^[^:]+:[^\!*] /etc/shadow | cut -d: -f1
+      register: suse_12_keppel_10_1_2_users
+
+    - name: 10.1.2 Set Password Change Minimum Number of Days | Get configuration per user
+      shell: >-
+        chage --list {{ suse_12_keppel_10_1_2_user }} | grep "^Minimum number of days between password change"
+      register: suse_12_keppel_10_1_2_user_configuration
+      loop: "{{ suse_12_keppel_10_1_2_users['stdout_lines'] }}"
+      loop_control:
+        loop_var: suse_12_keppel_10_1_2_user
+
+    - name: Set Rule Values | keppel_10_1_2 | Set expected values
+      set_fact:
+        suse_12_rules: "{{ suse_12_rules | combine({'keppel_10_1_2': {'expected_values': suse_12_rules['keppel_10_1_2']['expected_values'] + [suse_12_keppel_10_1_2_expected_value_item]}}, recursive=true) }}"
+      loop:
+        - "PASS_MIN_DAYS[\\s]+[1-9]+"
+        - "Minimum number of days between password change[\\s]+:[\\s]+[1-9]+"
+      loop_control:
+        loop_var: suse_12_keppel_10_1_2_expected_value_item
+
+    - name: Set Rule Values | keppel_10_1_2 | Set actual values
+      block:
+        - name: Set Rule Values | keppel_10_1_2 | Set actual values | Initialize variables
+          set_fact:
+            suse_12_keppel_10_1_2_actual_values: []
+            suse_12_keppel_10_1_2_user_configuration_actual_values: []
+
+        - name: Set Rule Values | keppel_10_1_2 | Set actual values | Get user configuration actual values
+          set_fact:
+            suse_12_keppel_10_1_2_user_configuration_actual_values: "{{ suse_12_keppel_10_1_2_user_configuration_actual_values + [suse_12_keppel_10_1_2_user_configuration_item['stderr'] if suse_12_keppel_10_1_2_user_configuration_item['stderr']|length and suse_12_keppel_10_1_2_user_configuration_item['rc']|int == 1 else suse_12_keppel_10_1_2_user_configuration_item['stdout'] | trim] }}"
+          loop: "{{ suse_12_keppel_10_1_2_user_configuration['results'] }}"
+          loop_control:
+            loop_var: suse_12_keppel_10_1_2_user_configuration_item
+          when:
+            - suse_12_keppel_10_1_2_user_configuration is defined
+            - suse_12_keppel_10_1_2_user_configuration['results'] is defined
+
+        - name: Set Rule Values | keppel_10_1_2 | Set actual values | Get complete actual values
+          set_fact:
+            suse_12_keppel_10_1_2_actual_values:
+              - "{{ suse_12_keppel_10_1_2_out['stderr'] if suse_12_keppel_10_1_2_out['stderr']|length and suse_12_keppel_10_1_2_out['rc']|int == 1 else suse_12_keppel_10_1_2_out['stdout'] | trim }}"
+              - "{{ suse_12_keppel_10_1_2_user_configuration_actual_values }}"
+          when: suse_12_keppel_10_1_2_out is defined
+
+        - name: Set Rule Values | keppel_10_1_2 | Set actual values | Set actual values in suse_12_rules
+          set_fact:
+            suse_12_rules: "{{ suse_12_rules | combine({'keppel_10_1_2': {'actual_values': suse_12_keppel_10_1_2_actual_values }}, recursive=true) }}"
+      when:
+        - suse_12_keppel_10_1_2_user_configuration is defined
+        - suse_12_keppel_10_1_2_user_configuration['results'] is defined
+
+    - name: Set Rule Values | keppel_10_1_2 | Display rule values
+      debug:
+        msg: |-
+          suse_12_rules['keppel_10_1_2']['expected_values']: {{ suse_12_rules['keppel_10_1_2']['expected_values'] }}
+          suse_12_rules['keppel_10_1_2']['actual_values']: {{ suse_12_rules['keppel_10_1_2']['actual_values'] }}
+        verbosity: 2
+  ignore_errors: true
+  when: suse_12_keppel_10_1_2 | bool
+
+- name: 10.1.3
+  block:
+    - name: 10.1.3 Set Password Expiring Warning Days
+      shell: grep PASS_WARN_AGE /etc/login.defs | grep -v ^#
+      register: suse_12_keppel_10_1_3_out
+
+    - name: 10.1.3 Set Password Expiring Warning Days | Get list of users
+      shell: >-
+        egrep ^[^:]+:[^\!*] /etc/shadow | cut -d: -f1
+      register: suse_12_keppel_10_1_3_users
+
+    - name: 10.1.3 Set Password Expiring Warning Days | Get configuration per user
+      shell: >-
+        chage --list {{ suse_12_keppel_10_1_3_user }} | grep "^Number of days of warning before password expires"
+      register: suse_12_keppel_10_1_3_user_configuration
+      loop: "{{ suse_12_keppel_10_1_3_users['stdout_lines'] }}"
+      loop_control:
+        loop_var: suse_12_keppel_10_1_3_user
+
+    - name: Set Rule Values | keppel_10_1_3 | Set expected values
+      set_fact:
+        suse_12_rules: "{{ suse_12_rules | combine({'keppel_10_1_3': {'expected_values': suse_12_rules['keppel_10_1_3']['expected_values'] + [suse_12_keppel_10_1_3_expected_value_item]}}, recursive=true) }}"
+      loop:
+        - "PASS_WARN_AGE[\\s]+14"
+        - "Number of days of warning before password expires[\\s]+:[\\s]+14"
+      loop_control:
+        loop_var: suse_12_keppel_10_1_3_expected_value_item
+
+    - name: Set Rule Values | keppel_10_1_3 | Set actual values
+      block:
+        - name: Set Rule Values | keppel_10_1_3 | Set actual values | Initialize variables
+          set_fact:
+            suse_12_keppel_10_1_3_actual_values: []
+            suse_12_keppel_10_1_3_user_configuration_actual_values: []
+
+        - name: Set Rule Values | keppel_10_1_3 | Set actual values | Get user configuration actual values
+          set_fact:
+            suse_12_keppel_10_1_3_user_configuration_actual_values: "{{ suse_12_keppel_10_1_3_user_configuration_actual_values + [suse_12_keppel_10_1_3_user_configuration_item['stderr'] if suse_12_keppel_10_1_3_user_configuration_item['stderr']|length and suse_12_keppel_10_1_3_user_configuration_item['rc']|int == 1 else suse_12_keppel_10_1_3_user_configuration_item['stdout'] | trim] }}"
+          loop: "{{ suse_12_keppel_10_1_3_user_configuration['results'] }}"
+          loop_control:
+            loop_var: suse_12_keppel_10_1_3_user_configuration_item
+          when:
+            - suse_12_keppel_10_1_3_user_configuration is defined
+            - suse_12_keppel_10_1_3_user_configuration['results'] is defined
+
+        - name: Set Rule Values | keppel_10_1_3 | Set actual values | Get complete actual values
+          set_fact:
+            suse_12_keppel_10_1_3_actual_values:
+              - "{{ suse_12_keppel_10_1_3_out['stderr'] if suse_12_keppel_10_1_3_out['stderr']|length and suse_12_keppel_10_1_3_out['rc']|int == 1 else suse_12_keppel_10_1_3_out['stdout'] | trim }}"
+              - "{{ suse_12_keppel_10_1_3_user_configuration_actual_values }}"
+          when: suse_12_keppel_10_1_3_out is defined
+
+        - name: Set Rule Values | keppel_10_1_3 | Set actual values | Set actual values in suse_12_rules
+          set_fact:
+            suse_12_rules: "{{ suse_12_rules | combine({'keppel_10_1_3': {'actual_values': suse_12_keppel_10_1_3_actual_values }}, recursive=true) }}"
+      when:
+        - suse_12_keppel_10_1_3_user_configuration is defined
+        - suse_12_keppel_10_1_3_user_configuration['results'] is defined
+
+    - name: Set Rule Values | keppel_10_1_3 | Display rule values
+      debug:
+        msg: |-
+          suse_12_rules['keppel_10_1_3']['expected_values']: {{ suse_12_rules['keppel_10_1_3']['expected_values'] }}
+          suse_12_rules['keppel_10_1_3']['actual_values']: {{ suse_12_rules['keppel_10_1_3']['actual_values'] }}
+        verbosity: 2
+  ignore_errors: true
+  when: suse_12_keppel_10_1_3 | bool
+
+- name: 13.21
+  block:
+    - name: 13.21 Ensure at least one file(s) named .* in /etc/cron.monthly, /etc/cron.weekly, /etc/cron.daily, and /etc/cron.hourly exists...
+      shell: grep -r aide /etc/crontab
+      register: suse_12_keppel_13_21_out
+
+    - name: 13.21 Ensure at least one file(s) named .* in /etc/cron.monthly, /etc/cron.weekly, /etc/cron.daily, and /etc/cron.hourly exists... | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "keppel_13_21"
+        suse_12_cis_rule_expected_values:
+          - "0 5 * * * root /usr/sbin/aide --check"
+        suse_12_cis_rule_output: "{{ suse_12_keppel_13_21_out }}"
+  ignore_errors: true
+  when: suse_12_keppel_13_21 | bool
+
+#- name: 13.38
+#  block:
+#    - name: 13.38 Ensure password expiration is 90 days or less
+#      shell: grep ^PASS_MAX_DAYS /etc/login.defs
+#      register: suse_12_keppel_13_38_out
+#
+#    - name: 13.38 Ensure password expiration is 90 days or less | Get list of users
+#      shell: >-
+#        egrep ^[^:]+:[^\!*] /etc/shadow | cut -d: -f1
+#      register: suse_12_keppel_13_38_users
+#
+#    - name: 13.38 Ensure password expiration is 90 days or less | Get configuration per user
+#      shell: "chage --list {{ suse_12_keppel_13_38_user }}"
+#      register: suse_12_keppel_13_38_user_configuration
+#      loop: "{{ suse_12_keppel_13_38_users['stdout_lines'] }}"
+#      loop_control:
+#        loop_var: suse_12_keppel_13_38_user
+#
+#    - name: Set Rule Values | keppel_13_38 | Set expected values
+#      set_fact:
+#        suse_12_rules: "{{ suse_12_rules | combine({'keppel_13_38': {'expected_values': suse_12_rules['keppel_13_38']['expected_values'] + [suse_12_keppel_13_38_expected_value_item]}}, recursive=true) }}"
+#      loop:
+#        - "PASS_MAX_DAYS[\\s]+90"
+#        - "Maximum number of days between password change[\\s]+:[\\s]+90"
+#      loop_control:
+#        loop_var: suse_12_keppel_13_38_expected_value_item
+#
+#    - name: Set Rule Values | keppel_13_38 | Set actual values
+#      block:
+#        - name: Set Rule Values | keppel_13_38 | Set actual values | Initialize variables
+#          set_fact:
+#            suse_12_keppel_13_38_actual_values: []
+#            suse_12_keppel_13_38_user_configuration_actual_values: []
+#
+#        - name: Set Rule Values | keppel_13_38 | Set actual values | Get user configuration actual values
+#          set_fact:
+#            suse_12_keppel_13_38_user_configuration_actual_values: "{{ suse_12_keppel_13_38_user_configuration_actual_values + [suse_12_keppel_13_38_user_configuration_item['stderr'] if suse_12_keppel_13_38_user_configuration_item['stderr']|length and suse_12_keppel_13_38_user_configuration_item['rc']|int == 1 else suse_12_keppel_13_38_user_configuration_item['stdout'] | trim] }}"
+#          loop: "{{ suse_12_keppel_13_38_user_configuration['results'] }}"
+#          loop_control:
+#            loop_var: suse_12_keppel_13_38_user_configuration_item
+#          when:
+#            - suse_12_keppel_13_38_user_configuration is defined
+#            - suse_12_keppel_13_38_user_configuration['results'] is defined
+#
+#        - name: Set Rule Values | keppel_13_38 | Set actual values | Get complete actual values
+#          set_fact:
+#            suse_12_keppel_13_38_actual_values:
+#              - "{{ suse_12_keppel_13_38_out['stderr'] if suse_12_keppel_13_38_out['stderr']|length and suse_12_keppel_13_38_out['rc']|int == 1 else suse_12_keppel_13_38_out['stdout'] | trim }}"
+#              - "{{ suse_12_keppel_13_38_user_configuration_actual_values }}"
+#          when: suse_12_keppel_13_38_out is defined
+#
+#        - name: Set Rule Values | keppel_13_38 | Set actual values | Set actual values in suse_12_rules
+#          set_fact:
+#            suse_12_rules: "{{ suse_12_rules | combine({'keppel_13_38': {'actual_values': suse_12_keppel_13_38_actual_values }}, recursive=true) }}"
+#      when:
+#        - suse_12_keppel_13_38_user_configuration is defined
+#        - suse_12_keppel_13_38_user_configuration['results'] is defined
+#
+#    - name: Set Rule Values | keppel_13_38 | Display rule values
+#      debug:
+#        msg: |-
+#          suse_12_rules['keppel_13_38']['expected_values']: {{ suse_12_rules['keppel_13_38']['expected_values'] }}
+#          suse_12_rules['keppel_13_38']['actual_values']: {{ suse_12_rules['keppel_13_38']['actual_values'] }}
+#        verbosity: 2
+#  ignore_errors: true
+#  when: suse_12_keppel_13_38 | bool

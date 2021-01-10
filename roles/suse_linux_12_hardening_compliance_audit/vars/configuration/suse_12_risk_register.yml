@@ -1,0 +1,190 @@
+---
+# Risk Register #
+#################
+# This is configured based on the client's risk register
+# Contains a list of exceptions to rules
+# First level key - hostname
+# Second level key - baseline from dict "suse_12_hardening_compliance_baseline_data"
+
+# TODO: Configure according to site policy. Entries added are examples only
+suse_12_risk_register:
+  SUSE:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2019-08-14
+      approved_by: Sample Approver
+  SUSE-2:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2019-07-25
+      approved_by: Sample Approver2
+  SUSE-3:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2019-08-14
+      approved_by: Sample Approver3
+  SGDRBPCDA1:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRBPCDD1:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPGEDC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPGEDD:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPGEPC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPGEQC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPGESC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPPEDC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPPEDD:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPPEQC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPREDC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPREQC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPRESC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPRESD:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPWEDC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPWEDD:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPWESC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGDRERPWESD:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGEPC01:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGEPC02:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGEPD01:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGEPD02:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGETC01:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGETC02:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGETC03:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGETD02:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3
+  SGTAERPGSBDC:
+    baseline_7_5_6:
+      accepted_values:
+        - "inactive"
+      date_approved: 2020-03-03
+      approved_by: Sample Approver3

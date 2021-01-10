@@ -1,0 +1,16 @@
+---
+- name: 4.2.1.1
+  block:
+    - name: 4.2.1.1 Ensure rsyslog Service is enabled
+      shell: systemctl is-enabled rsyslog
+      register: suse_12_cis_4_2_1_1_out
+
+    - name:  4.2.1.1 Ensure rsyslog Service is enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_2_1_1"
+        suse_12_cis_rule_expected_values:
+          - "enabled"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_2_1_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_2_1_1 | bool

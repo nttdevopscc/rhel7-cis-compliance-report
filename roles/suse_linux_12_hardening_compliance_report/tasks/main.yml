@@ -1,0 +1,37 @@
+---
+- name: Create directory for reports
+  file:
+    path: "{{ suse_linux_12_hardening_compliance_directory }}"
+    state: directory
+  delegate_to: localhost
+  run_once: true
+
+#- name: Generate hardening compliance report for SUSE Linux 12
+#  template:
+#    src: "./files/hardening_compliance_report.j2"
+#    dest: "{{ suse_linux_12_hardening_compliance_directory + '/suse_hardening_compliance_report_' + ansible_date_time['date'] + '_' + (ansible_date_time['time'] | replace(':','')) }}.html"
+#  when: groups[group_name] is defined
+#  delegate_to: localhost
+#  run_once: true
+
+- name: Generate hardening compliance report to /var/www/html
+  template:
+    src: "./files/separate_report_per_server_hardening_compliance_report.j2"
+    dest: "/var/www/html/{{ ansible_net_hostname + ansible_date_time['date'] + '_' + (ansible_date_time['time'] | replace(':','')) }}.html"
+  when: groups[group_name] is defined
+  delegate_to: localhost
+
+- name: Generate hardening compliance report to /home/awx/linux_hardening_compliance_report
+  template:
+    src: "./files/separate_report_per_server_hardening_compliance_report.j2"
+    dest: "/home/awx/linux_hardening_compliance_report/{{ ansible_net_hostname + ansible_date_time['date'] + '_' + (ansible_date_time['time'] | replace(':','')) }}.html"
+  when: groups[group_name] is defined
+  delegate_to: localhost
+
+- name: Generate CSV hardening compliance report to /home/awx/linux_hardening_compliance_summary_csv
+  template:
+    src: "./files/generate_csv.j2"
+    dest: "/home/awx/linux_hardening_compliance_summary_csv/suse_hardening_compliance_summary.csv"
+  when: groups[group_name] is defined
+  delegate_to: localhost
+  run_once: true

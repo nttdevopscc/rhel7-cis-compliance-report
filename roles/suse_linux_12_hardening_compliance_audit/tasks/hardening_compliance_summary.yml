@@ -1,0 +1,46 @@
+---
+- name: Get a summary of compliance to the rules | {{ suse_12_summary_baseline_key }} | Display current value of variables
+  debug:
+    msg: |-
+      suse_12_summary_baseline_key: {{ suse_12_summary_baseline_key }}
+    verbosity: 2
+
+- name: Get a summary of compliance to the rules | {{ suse_12_summary_baseline_key }} | Set values for count variables
+  set_fact:
+    suse_12_summary_compliant_count: 0
+    suse_12_summary_non_compliant_count: 0
+    suse_12_summary_risk_accepted_count: 0
+
+- name: Get a summary of compliance to the rules | {{ suse_12_summary_baseline_key }} | Get sum of all compliant managed nodes
+  set_fact:
+    suse_12_summary_compliant_count: "{{ suse_12_summary_compliant_count | default(0) | int + 1 if hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key]['compliance'] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key]['compliance'] == 'C' else suse_12_summary_compliant_count }}"
+    suse_12_summary_non_compliant_count: "{{ suse_12_summary_non_compliant_count | default(0) | int + 1 if hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key]['compliance'] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key]['compliance'] == 'NC' else suse_12_summary_non_compliant_count }}"
+    suse_12_summary_risk_accepted_count: "{{ suse_12_summary_risk_accepted_count | default(0) | int + 1 if hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key]['compliance'] is defined and hostvars[suse_12_summary_host]['suse_12_hardening_compliance_baseline_data'][suse_12_summary_baseline_key]['compliance'] == 'RA' else suse_12_summary_risk_accepted_count }}"
+  loop: "{{ groups[group_name] }}"
+  loop_control:
+    loop_var: suse_12_summary_host
+  when: >-
+    groups[group_name] is defined
+
+- name: Get a summary of compliance to the rules | {{ suse_12_summary_baseline_key }} | Set final values for count variables
+  set_fact:
+    suse_12_hardening_compliance_summary_item:
+      - baseline: "{{ suse_12_summary_baseline_key }}"
+        compliant: "{{ suse_12_summary_compliant_count }}"
+        non_compliant: "{{ suse_12_summary_non_compliant_count }}"
+        risk_accepted: "{{ suse_12_summary_risk_accepted_count }}"
+        total: "{{ suse_12_summary_compliant_count | int + suse_12_summary_non_compliant_count | int + suse_12_summary_risk_accepted_count | int }}"
+
+- name: Get a summary of compliance to the rules | {{ suse_12_summary_baseline_key }} | Add to the summary dictionary
+  set_fact:
+    suse_12_hardening_compliance_summary: "{{ suse_12_hardening_compliance_summary + suse_12_hardening_compliance_summary_item }}"
+
+- name: Get a summary of compliance to the rules | {{ suse_12_summary_baseline_key }} | Display summary item data
+  debug:
+    msg: |-
+      baseline: '{{ suse_12_summary_baseline_key }}'
+      compliant: '{{ suse_12_summary_compliant_count }}'
+      non_compliant: '{{ suse_12_summary_non_compliant_count }}'
+      risk_accepted: '{{ suse_12_summary_risk_accepted_count }}'
+      total: '{{ suse_12_summary_compliant_count | int + suse_12_summary_non_compliant_count | int + suse_12_summary_risk_accepted_count | int }}'
+    verbosity: 2

@@ -1,0 +1,531 @@
+---
+- name: 4.1.2
+  block:
+    - name: 4.1.2 Ensure auditd service is enabled
+      shell: systemctl is-enabled auditd
+      register: suse_12_cis_4_1_2_out
+
+    - name: 4.1.2 Ensure auditd service is enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_2"
+        suse_12_cis_rule_expected_values:
+          - "enabled"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_2 | bool
+
+- name: 4.1.3
+  block:
+    - name: 4.1.3 Ensure auditing for processes that start prior to auditd is enabled
+      shell: grep "^\s*linux" /boot/grub2/grub.cfg
+      register: suse_12_cis_4_1_3_out
+
+    - name: Set Rule Values | cis_4_1_3 | Set expected values
+      set_fact:
+        suse_12_rules: "{{ suse_12_rules | combine({'cis_4_1_3': {'expected_values': ['audit=1']}}, recursive=true) }}"
+
+    - name: Set Rule Values | cis_4_1_3 | Set actual value
+      set_fact:
+        suse_12_rules: "{{ suse_12_rules | combine({'cis_4_1_3': {'actual_values':  suse_12_rules['cis_4_1_3']['actual_values'] + [suse_12_cis_4_1_3_out['stderr'] if suse_12_cis_4_1_3_out['stderr']|length and suse_12_cis_4_1_3_out['rc']|int == 1 else suse_12_cis_4_1_3_item | trim] }}, recursive=true) }}"
+      loop: "{{ suse_12_cis_4_1_3_out['stdout_lines'] }}"
+      loop_control:
+        loop_var: suse_12_cis_4_1_3_item
+      when:
+        - suse_12_cis_4_1_3_out['results'] is not defined
+
+    - name: Set Rule Values | cis_4_1_3 | Display rule values
+      debug:
+        msg: |-
+          suse_12_rules['cis_4_1_3']['expected_values']: {{ suse_12_rules['cis_4_1_3']['expected_values'] }}
+          suse_12_rules['cis_4_1_3']['actual_values']: {{ suse_12_rules['cis_4_1_3']['actual_values'] }}
+        verbosity: 2
+  ignore_errors: true
+  when: suse_12_cis_4_1_3 | bool
+
+- name: 4.1.4
+  block:
+    - name: 4.1.4 Ensure events that modify date and time information are collected | Set 32bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+adjtimex\s+\-S\s+settimeofday\s+\-S\s+stime\s+\-k\s+time\-change" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+clock\_settime\s+\-k\s+time\-change" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/localtime\s+\-p\s+wa\s+\-k\s+time\-change" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_4_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.4 Ensure events that modify date and time information are collected | Set 64bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+adjtimex\s+\-S\s+settimeofday\s+\-k\s+time\-change" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+adjtimex\s+\-S\s+settimeofday\s+\-S\s+stime\s+\-k\s+time\-change" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+clock\_settime\s+\-k\s+time\-change" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+clock\_settime\s+\-k\s+time\-change" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/localtime\s+\-p\s+wa\s+\-k\s+time\-change" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_4_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.4 Ensure events that modify date and time information are collected | Set 32bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_4"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
+          - -a always,exit -F arch=b32 -S clock_settime -k time-change
+          - -w /etc/localtime -p wa -k time-change"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_4_out }}"
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.4 Ensure events that modify date and time information are collected | Set 64bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_4"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
+          - -a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
+          - -a always,exit -F arch=b64 -S clock_settime -k time-change
+          - -a always,exit -F arch=b32 -S clock_settime -k time-change
+          - -w /etc/localtime -p wa -k time-change
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_4_out }}"
+      when: ansible_architecture == 'x86_64'
+  ignore_errors: true
+  when: suse_12_cis_4_1_4 | bool
+
+- name: 4.1.5
+  block:
+    - name: 4.1.5 Ensure events that modify user/group information are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/etc\/group\s+\-p\s+wa\s+\-k\s+identity" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/passwd\s+\-p\s+wa\s+\-k\s+identity" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/gshadow\s+\-p\s+wa\s+\-k\s+identity" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/shadow\s+\-p\s+wa\s+\-k\s+identity" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/security\/opasswd\s+\-p\s+wa\s+\-k\s+identity" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_5_out
+
+    - name: 4.1.5 Ensure events that modify user/group information are collected | Set Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_5"
+        suse_12_cis_rule_expected_values:
+          - -w /etc/group -p wa -k identity
+          - -w /etc/passwd -p wa -k identity
+          - -w /etc/gshadow -p wa -k identity
+          - -w /etc/shadow -p wa -k identity
+          - -w /etc/security/opasswd -p wa -k identity
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_5_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_5 | bool
+
+- name: 4.1.6
+  block:
+    - name: 4.1.6 Ensure events that modify the system's network environment are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+sethostname\s+\-S\s+setdomainname\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/issue\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/issue\.net\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/hosts\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/sysconfig\/network\/\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_6_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.6 Ensure events that modify the system's network environment are collected | Set 32bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_6"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale
+          - -w /etc/issue -p wa -k system-locale
+          - -w /etc/issue.net -p wa -k system-locale
+          - -w /etc/hosts -p wa -k system-locale
+          - -w /etc/sysconfig/network/ -p wa -k system-locale"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_6_out }}"
+        when: ansible_architecture == 'i386'
+
+    - name: 4.1.6 Ensure events that modify the system's network environment are collected | 64bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+sethostname\s+\-S\s+setdomainname\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+sethostname\s+\-S\s+setdomainname\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/issue\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/issue\.net\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/hosts\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/sysconfig\/network\/\s+\-p\s+wa\s+\-k\s+system\-locale" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_6_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.6 Ensure events that modify the system's network environment are collected | Set 64bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_6"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale
+          - -a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale
+          - -w /etc/issue -p wa -k system-locale
+          - -w /etc/issue.net -p wa -k system-locale
+          - -w /etc/hosts -p wa -k system-locale
+          - -w /etc/sysconfig/network/ -p wa -k system-locale
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_6_out }}"
+        when: ansible_architecture == 'x86_64'
+  ignore_errors: true
+  when: suse_12_cis_4_1_6 | bool
+
+- name: 4.1.7
+  block:
+    - name: 4.1.7 Ensure events that modify the system's Mandatory Access Controls are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/etc\/selinux\/\s+\-p\s+wa\s+\-k\s+MAC\-policy" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/usr\/share\/selinux\/\s+\-p\s+wa\s+\-k\s+MAC\-policy" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_7_out
+
+    - name: 4.1.7 Ensure events that modify the system's Mandatory Access Controls are collected | Set SELinux Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_7"
+        suse_12_cis_rule_expected_values:
+          - -w /etc/selinux/ -p wa -k MAC-policy
+          - -w /usr/share/selinux/ -p wa -k MAC-policy
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_7_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_7 | bool
+
+- name: 4.1.8
+  block:
+    - name: 4.1.8 Ensure login and logout events are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/var\/log\/faillog\s+\-p\s+wa\s+\-k\s+logins" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/var\/log\/lastlog\s+\-p\s+wa\s+\-k\s+logins" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/var\/log\/tallylog\s+\-p\s+wa\s+\-k\s+logins" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_8_out
+
+    - name: 4.1.8 Ensure login and logout events are collected | Set Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_8"
+        suse_12_cis_rule_expected_values:
+          - -w /var/log/faillog -p wa -k logins
+          - -w /var/log/lastlog -p wa -k logins
+          - -w /var/log/tallylog -p wa -k logins
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_8_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_8 | bool
+
+- name: 4.1.9
+  block:
+    - name: 4.1.9 Ensure session initiation information is collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/var\/run\/utmp\s+\-p\s+wa\s+\-k\s+session" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/var\/log\/wtmp\s+\-p\s+wa\s+\-k\s+logins" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/var\/log\/btmp\s+\-p\s+wa\s+\-k\s+logins" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_9_out
+
+    - name: 4.1.9 Ensure session initiation information is collected | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_9"
+        suse_12_cis_rule_expected_values:
+          - -w /var/run/utmp -p wa -k session
+          - -w /var/log/wtmp -p wa -k logins
+          - -w /var/log/btmp -p wa -k logins
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_9_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_9 | bool
+
+- name: 4.1.10
+  block:
+    - name: 4.1.10 Ensure discretionary access control permission modification events are collected | 32bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+chmod\s+\-S\s+fchmod\s+\-S\s+fchmodat\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+chown\s+\-S\s+fchown\s+\-S\s+fchownat\s+\-S\s+lchown\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+setxattr\s+\-S\s+lsetxattr\s+\-S\s+fsetxattr\s+\-S\s+removexattr\s+\-S\s+lremovexattr\s+\-S\s+fremovexattr\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_10_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.10 Ensure discretionary access control permission modification events are collected | Set 32bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_10"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
+        when: ansible_architecture == 'i386'
+
+    - name: 4.1.10 Ensure discretionary access control permission modification events are collected | 64bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+chmod\s+\-S\s+fchmod\s+\-S\s+fchmodat\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+chmod\s+\-S\s+fchmod\s+\-S\s+fchmodat\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+chown\s+\-S\s+fchown\s+\-S\s+fchownat\s+\-S\s+lchown\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+chown\s+\-S\s+fchown\s+\-S\s+fchownat\s+\-S\s+lchown\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+setxattr\s+\-S\s+lsetxattr\s+\-S\s+fsetxattr\s+\-S\s+removexattr\s+\-S\s+lremovexattr\s+\-S\s+fremovexattr\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+setxattr\s+\-S\s+lsetxattr\s+\-S\s+fsetxattr\s+\-S\s+removexattr\s+\-S\s+lremovexattr\s+\-S\s+fremovexattr\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+perm\_mod" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_10_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.10 Ensure discretionary access control permission modification events are collected | Set 64bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_10"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b32 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b64 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
+          - -a always,exit -F arch=b32 -S setxattr -S lsetxattr -S fsetxattr -S removexattr -S lremovexattr -S fremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
+        when: ansible_architecture == 'x86_64'
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_10_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_10 | bool
+
+- name: 4.1.11
+  block:
+    - name: 4.1.11 Ensure unsuccessful unauthorized file access attempts are collected | 32bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+creat\s+\-S\s+open\s+\-S\s+openat\s+\-S\s+truncate\s+\-S\s+ftruncate\s+\-F\s+exit\=\-EACCES\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+access" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+creat\s+\-S\s+open\s+\-S\s+openat\s+\-S\s+truncate\s+\-S\s+ftruncate\s+\-F\s+exit\=\-EPERM\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+access" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_11_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.11 Ensure unsuccessful unauthorized file access attempts are collected | Set 32bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_11"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access
+          - -a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
+        when: ansible_architecture == 'i386'
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_11_out }}"
+
+    - name: 4.1.11 Ensure unsuccessful unauthorized file access attempts are collected | 64bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+creat\s+\-S\s+open\s+\-S\s+openat\s+\-S\s+truncate\s+\-S\s+ftruncate\s+\-F\s+exit\=\-EACCES\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+access" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+creat\s+\-S\s+open\s+\-S\s+openat\s+\-S\s+truncate\s+\-S\s+ftruncate\s+\-F\s+exit\=\-EACCES\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+access" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+creat\s+\-S\s+open\s+\-S\s+openat\s+\-S\s+truncate\s+\-S\s+ftruncate\s+\-F\s+exit\=\-EPERM\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+access" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+creat\s+\-S\s+open\s+\-S\s+openat\s+\-S\s+truncate\s+\-S\s+ftruncate\s+\-F\s+exit\=\-EPERM\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+access" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_11_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.11 Ensure unsuccessful unauthorized file access attempts are collected | Set 64bit Expected Value
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_11"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access
+          - -a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k access
+          - -a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
+          - -a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k access
+        when: ansible_architecture == 'x86_64'
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_11_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_11 | bool
+
+- name: 4.1.12
+  block:
+    - name: 4.1.12 Ensure use of privileged commands is collected
+      shell: for list in $(for i in  $(df | grep '^/dev' | awk '{ print $NF }'); do find $i -xdev -type f -perm -4000 -o -type f -perm -2000 2>/dev/null; done);do echo "-a always,exit -F path=$list -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged";done
+      register: suse_12_cis_4_1_12_out
+
+    - name: 4.1.12 Ensure use of privileged commands is collected from suse_12_cis_4_1_12_out
+      shell: cat /etc/audit/audit.rules | grep privileged
+      register: suse_12_cis_4_1_12_expected_out
+
+    - name: 4.1.2 Set facts for the suse_12_cis_4_1_12_expected_out
+      set_fact:
+        suse_12_cis_4_1_12_exp_out: "{{ suse_12_cis_4_1_12_expected_out}}"
+    - name: 4.1.12 Ensure use of privileged commands is collected | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_12"
+        suse_12_cis_rule_expected_values:
+          - "{{ suse_12_cis_4_1_12_out.stdout }}"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_12_exp_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_12 | bool
+
+- name: 4.1.13
+  block:
+    - name: 4.1.13 Ensure successful file system mounts are collected | (32 bit)
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+mount\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+mounts" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_13_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.13 Ensure successful file system mounts are collected | Set Rule Values (32 bit)
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_13"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_13_out }}"
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.13 Ensure successful file system mounts are collected | (64 bit)
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+mount\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+mounts" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+mount\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+mounts" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_13_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.13 Ensure successful file system mounts are collected | Set Rule Values (64 bit)
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_13"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
+          - -a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=4294967295 -k mounts
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_13_out }}"
+      when: ansible_architecture == 'x86_64'
+
+  ignore_errors: true
+  when: suse_12_cis_4_1_13 | bool
+
+- name: 4.1.14
+  block:
+    - name: 4.1.14 Ensure file deletion events by users are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+\arch\=b32\s+\-S\s+unlink\s+\-S\s+\unlinkat\s+\-S\s+\rename\s+\-S\s+renameat\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+delete" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_14_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.14 Ensure file deletion events by users are collected | Set Rule Values (64 bit)
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_14"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_14_out }}"
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.14 Ensure file deletion events by users are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-a\s+always\,exit\s+\-F\s+\arch\=b64\s+\-S\s+unlink\s+\-S\s+\unlinkat\s+\-S\s+\rename\s+\-S\s+renameat\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+delete" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+\arch\=b32\s+\-S\s+unlink\s+\-S\s+\unlinkat\s+\-S\s+\rename\s+\-S\s+renameat\s+\-F\s+auid>\=1000\s+\-F\s+auid\!\=4294967295\s+\-k\s+delete" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_14_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.14 Ensure file deletion events by users are collected | Set Rule Values (64 bit)
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_14"
+        suse_12_cis_rule_expected_values:
+          - -a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
+          - -a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=1000 -F auid!=4294967295 -k delete
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_14_out }}"
+      when: ansible_architecture == 'x86_64'
+  ignore_errors: true
+  when: suse_12_cis_4_1_14 | bool
+
+- name: 4.1.15
+  block:
+    - name: 4.1.15 Ensure changes to system administration scope (sudoers) is collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/etc\/sudoers\s+\-p\s+wa\s+\-k\s+scope" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/etc\/sudoers\.d\/\s+\-p\s+wa\s+\-k\s+scope" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_15_out
+
+    - name: 4.1.15 Ensure changes to system administration scope (sudoers) is collected | Set Expected Value and rules
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_15"
+        suse_12_cis_rule_expected_values:
+          - -w /etc/sudoers -p wa -k scope
+          - -w /etc/sudoers.d/ -p wa -k scope
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_15_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_15 | bool
+
+- name: 4.1.16
+  block:
+    - name: 4.1.16 Ensure system administrator actions (sudolog) are collected
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+/var/log/sudo\.log\s+\-p\s+wa\s+\-k\s+actions" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_16_out
+
+    - name: 4.1.16 Ensure system administrator actions (sudolog) are collected | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_16"
+        suse_12_cis_rule_expected_values:
+          - -w /var/log/sudo.log -p wa -k actions
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_16_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_16 | bool
+
+- name: 4.1.17
+  block:
+    - name: 4.1.17 Ensure kernel module loading and unloading is collected | 32bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/sbin\/insmod\s+\-p\s+x\s+\-k\s+modules" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/sbin\/rmmod\s+\-p\s+x\s+\-k\s+modules" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/sbin\/modprobe\s+\-p\s+x\s+\-k\s+modules" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b32\s+\-S\s+init\_module\s+\-S\s+delete\_module\s+\-k\s+modules" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_17_out
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.17 Ensure kernel module loading and unloading is collected | Set Rule Values (32 bit)
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_17"
+        suse_12_cis_rule_expected_values:
+          - -w /sbin/insmod -p x -k modules
+          - -w /sbin/rmmod -p x -k modules
+          - -w /sbin/modprobe -p x -k modules
+          - -a always,exit -F arch=b32 -S init_module -S delete_module -k modules
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_17_out }}"
+      when: ansible_architecture == 'i386'
+
+    - name: 4.1.17 Ensure kernel module loading and unloading is collected | 64bit
+      shell: "{{ item }}"
+      loop:
+        - grep -E "\-w\s+\/sbin\/insmod\s+\-p\s+x\s+\-k\s+modules" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/sbin\/rmmod\s+\-p\s+x\s+\-k\s+modules" /etc/audit/audit.rules
+        - grep -E "\-w\s+\/sbin\/modprobe\s+\-p\s+x\s+\-k\s+modules" /etc/audit/audit.rules
+        - grep -E "\-a\s+always\,exit\s+\-F\s+arch\=b64\s+\-S\s+init\_module\s+\-S\s+delete\_module\s+\-k\s+modules" /etc/audit/audit.rules
+      register: suse_12_cis_4_1_17_out
+      when: ansible_architecture == 'x86_64'
+
+    - name: 4.1.17 Ensure kernel module loading and unloading is collected | Set Rule Values (64 bit)
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_17"
+        suse_12_cis_rule_expected_values:
+          - -w /sbin/insmod -p x -k modules
+          - -w /sbin/rmmod -p x -k modules
+          - -w /sbin/modprobe -p x -k modules
+          - -a always,exit -F arch=b64 -S init_module -S delete_module -k modules
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_17_out }}"
+      when: ansible_architecture == 'x86_64' 
+  ignore_errors: true
+  when: suse_12_cis_4_1_17 | bool
+
+- name: 4.1.18
+  block:
+    - name: 4.1.18 Ensure the audit configuration is immutable
+      shell: grep "^\s*[^#]" /etc/audit/audit.rules | tail -1
+      register: suse_12_cis_4_1_18_out
+
+    - name: 4.1.18 Ensure the audit configuration is immutable | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_18"
+        suse_12_cis_rule_expected_values:
+          - "-e 2"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_18_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_18 | bool

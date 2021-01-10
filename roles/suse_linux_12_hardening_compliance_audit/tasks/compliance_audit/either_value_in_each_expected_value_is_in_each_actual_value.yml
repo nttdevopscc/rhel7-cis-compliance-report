@@ -1,0 +1,46 @@
+---
+# Compliance audit - either_value_in_each_expected_value_is_in_each_actual_value #
+##################################################################################
+# suse_12_rule_key - key of the rule
+# suse_12_baseline_key - key of the baseline being checked
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Display current value of variables
+  debug:
+    msg: |-
+      suse_12_rule_key: {{ suse_12_rule_key }}
+      suse_12_baseline_key: {{ suse_12_baseline_key }}
+    verbosity: 2
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Set values for count variable
+  set_fact:
+    suse_12_audit_match_count: 0
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Check if each actual value is in each expected value
+  set_fact:
+    suse_12_audit_match_count: "{{ suse_12_audit_match_count  | default(0) | int + 1 }}"
+  when: suse_12_rules[suse_12_rule_key]['actual_values'][expected_value_index] | regex(expected_value_item[0]) or suse_12_rules[suse_12_rule_key]['actual_values'][expected_value_index] | regex(expected_value_item[1])
+  loop: "{{ suse_12_rules[suse_12_rule_key]['expected_values'] }}"
+  loop_control:
+    index_var: expected_value_index
+    loop_var: expected_value_item
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Mark as compliant
+  set_fact:
+    suse_12_hardening_compliance_baseline_data: "{{ suse_12_hardening_compliance_baseline_data | combine({suse_12_baseline_key: {'compliance': 'C' }}, recursive=true) }}"
+  when: suse_12_audit_match_count | int == suse_12_rules[suse_12_rule_key]['expected_values'] | length
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Display compliance
+  debug:
+    msg: |-
+      Number of actual values and expected values matches: {{ suse_12_audit_match_count }}
+      Compliance: {{ suse_12_hardening_compliance_baseline_data[suse_12_baseline_key]['compliance'] }}
+    verbosity: 2
+
+- name: Risk Register Check | {{ suse_12_baseline_key }}
+  include_tasks: risk_register_check.yml
+  vars:
+    suse_12_risk_register_rule_key: "{{ suse_12_rule_key }}"
+    suse_12_risk_register_baseline_key: "{{ suse_12_baseline_key }}"
+  when:
+    - suse_12_hardening_compliance_baseline_data is defined
+    - suse_12_hardening_compliance_baseline_data[suse_12_baseline_key]['compliance'] == 'NC'

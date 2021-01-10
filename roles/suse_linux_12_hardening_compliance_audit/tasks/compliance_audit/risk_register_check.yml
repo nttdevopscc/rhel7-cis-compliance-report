@@ -1,0 +1,51 @@
+---
+# Risk Register Check #
+#######################
+# suse_12_risk_register_rule_key - key of the rule
+# suse_12_risk_register_baseline_key - key of the baseline being checked
+
+- name: Risk Register Check | {{ suse_12_risk_register_baseline_key }} | Display current value of variables
+  debug:
+    msg: |-
+      suse_12_risk_register_baseline_key: {{ suse_12_risk_register_baseline_key }}
+      suse_12_risk_register_rule_key: {{ suse_12_risk_register_rule_key }}
+    verbosity: 2
+
+- name: Risk Register Check | {{ suse_12_risk_register_baseline_key }} | Set values for count variables
+  set_fact:
+    suse_12_risk_register_match_count: 0
+
+- name: Risk Register Check | {{ suse_12_risk_register_baseline_key }} | Get accepted values from risk register
+  set_fact:
+    suse_12_risk_register_accepted_values: "{{ suse_12_risk_register[inventory_hostname][suse_12_risk_register_baseline_key]['accepted_values'] }}"
+  when:
+    - suse_12_risk_register[inventory_hostname] is defined
+    - suse_12_risk_register[inventory_hostname][suse_12_risk_register_baseline_key] is defined
+    - suse_12_risk_register[inventory_hostname][suse_12_risk_register_baseline_key]['accepted_values'] is defined
+
+- name: Risk Register Check | {{ suse_12_risk_register_baseline_key }} | Check if actual value/s are accepted in the risk register
+  set_fact:
+    suse_12_risk_register_match_count: "{{ suse_12_risk_register_match_count | default(0) | int + 1 }}"
+  when:
+    - suse_12_risk_register_accepted_values is defined
+    - suse_12_risk_register_accepted_values[risk_register_actual_value_index] is defined
+    - risk_register_actual_value_item == suse_12_risk_register_accepted_values[risk_register_actual_value_index]
+  loop: "{{ suse_12_rules[suse_12_risk_register_rule_key]['actual_values'] }}"
+  loop_control:
+    index_var: risk_register_actual_value_index
+    loop_var: risk_register_actual_value_item
+
+- name: Risk Register Check | {{ suse_12_risk_register_baseline_key }} | Mark as risk accepted
+  set_fact:
+    suse_12_hardening_compliance_baseline_data: "{{ suse_12_hardening_compliance_baseline_data | combine({suse_12_risk_register_baseline_key: {'compliance': 'RA' }}, recursive=true) }}"
+  when:
+    - suse_12_risk_register_accepted_values is defined
+    - suse_12_risk_register_accepted_values | length == suse_12_rules[suse_12_risk_register_rule_key]['actual_values'] | length
+    - suse_12_risk_register_accepted_values | length == suse_12_risk_register_match_count | int
+
+- name: Risk Register Check | {{ suse_12_risk_register_baseline_key }} | Display match count data
+  debug:
+    msg: |-
+      Number of risk register accepted values: {{ suse_12_risk_register_accepted_values | default([]) | length }}
+      Number of actual values and risk register accepted values matches: {{ suse_12_risk_register_match_count }}
+    verbosity: 2

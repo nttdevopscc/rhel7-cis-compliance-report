@@ -1,0 +1,1164 @@
+---
+# Hardening Compliance Baseline #
+#################################
+# This is configured based on the client's hardening baseline
+# This will also be the basis of what is displayed in the report
+# section_number: Section number of the rule
+# description: Description of the rule
+# rule - Key from dict "suse_12_rules"
+
+suse_12_hardening_compliance_baseline:
+  - baseline_2_1
+  - baseline_2_19
+  - baseline_2_20
+  - baseline_2_21
+  - baseline_2_22
+  - baseline_2_23
+  - baseline_2_24
+  - baseline_2_25
+  - baseline_3_1
+  - baseline_3_2
+  - baseline_4_3
+  - baseline_4_4
+  - baseline_4_5
+  - baseline_5_1_1
+  - baseline_5_1_3
+  - baseline_5_1_4
+  - baseline_5_1_5
+  - baseline_5_1_6
+  - baseline_5_1_7
+  - baseline_5_1_8
+  - baseline_5_1_9
+  - baseline_5_1_10
+  - baseline_5_1_11
+  - baseline_5_1_12
+  - baseline_5_1_13
+  - baseline_5_1_14
+  - baseline_5_1_15
+  - baseline_5_1_16
+  - baseline_5_1_17
+  - baseline_5_1_18
+  - baseline_5_1_19
+  - baseline_6_2
+  - baseline_6_3
+  - baseline_6_4
+  - baseline_6_5
+  - baseline_6_6
+  - baseline_6_7
+  - baseline_6_8
+  - baseline_6_9
+  - baseline_6_10
+  - baseline_6_11
+  - baseline_6_12
+  - baseline_6_13
+  - baseline_6_14
+  - baseline_6_15
+  - baseline_6_16
+  - baseline_7_1_1
+  - baseline_7_2_1
+  - baseline_7_2_2
+  - baseline_7_2_3
+  - baseline_7_2_4
+  - baseline_7_2_5
+  - baseline_7_2_6
+  - baseline_7_2_7
+  - baseline_7_2_8
+  - baseline_7_3_1
+  - baseline_7_4_3
+  - baseline_7_4_5
+  - baseline_7_5_6
+  - baseline_8_1_1_1
+  - baseline_8_1_1_2
+  - baseline_8_1_1_3
+  - baseline_8_1_1_4
+  - baseline_8_1_1_5
+  - baseline_8_1_1_6
+  - baseline_8_1_1_7
+  - baseline_8_1_1_8
+  - baseline_8_1_1_9
+  - baseline_8_1_1_10
+  - baseline_8_1_1_11
+  - baseline_8_1_1_12
+  - baseline_8_1_1_13
+  - baseline_8_1_1_14
+  - baseline_8_1_1_15
+  - baseline_8_1_1_16
+  - baseline_8_1_1_17
+  - baseline_8_1_1_18
+  - baseline_8_1_1_19
+  - baseline_8_1_1_20
+  - baseline_8_2_2
+  - baseline_8_2_3
+  - baseline_9_1_1
+  - baseline_9_1_2
+  - baseline_9_1_3
+  - baseline_9_1_4
+  - baseline_9_1_5
+  - baseline_9_1_6
+  - baseline_9_1_7
+  - baseline_9_2_1
+  - baseline_9_2_2
+  - baseline_9_2_3
+  - baseline_9_2_4
+  - baseline_9_2_5
+  - baseline_9_2_6
+  - baseline_9_2_7
+  - baseline_9_2_8
+  - baseline_9_2_9
+  - baseline_9_2_10
+  - baseline_9_2_12
+  - baseline_9_2_14
+  - baseline_9_3_1
+  - baseline_9_3_2
+  - baseline_9_3_3
+  - baseline_10_1_1
+  - baseline_10_1_2
+  - baseline_10_1_3
+  - baseline_10_1_4
+  - baseline_10_1_5
+  - baseline_10_1_6
+  - baseline_10_1_7
+  - baseline_11_1
+  - baseline_11_2
+  - baseline_12_1
+  - baseline_12_2
+  - baseline_12_3
+  - baseline_12_4
+  - baseline_12_5
+  - baseline_12_6
+  - baseline_12_7
+  - baseline_13_1
+  - baseline_13_2
+  - baseline_13_3
+  - baseline_13_4
+  - baseline_13_5
+  - baseline_13_7
+  - baseline_13_8
+  - baseline_13_9
+  - baseline_13_10
+  - baseline_13_11
+  - baseline_13_12
+  - baseline_13_13
+  - baseline_13_14
+  - baseline_13_15
+  - baseline_13_16
+  - baseline_13_17
+  - baseline_13_18
+  - baseline_13_19
+  - baseline_13_20
+#  - baseline_13_21
+  - baseline_13_22
+  - baseline_13_23
+  - baseline_13_24
+  - baseline_13_25
+  - baseline_13_26
+#  - baseline_13_27
+#  - baseline_13_28
+#  - baseline_13_29
+  - baseline_13_30
+  - baseline_13_31
+  - baseline_13_32
+  - baseline_13_33
+  - baseline_13_34
+#  - baseline_13_36
+#  - baseline_13_37
+#  - baseline_13_38
+#  - baseline_13_39
+  - baseline_13_40
+  - baseline_13_41
+  - baseline_13_42
+  - baseline_13_43
+
+suse_12_hardening_compliance_baseline_data:
+  baseline_2_1:
+    section_number: "2.1"
+    description: "Create Separate Partition for /tmp"
+    rule: "cis_1_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_2_19:
+    section_number: "2.19"
+    description: "Disable Mounting of freevxfs Filesystems"
+    rule: "cis_1_1_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_2_20:
+    section_number: "2.20"
+    description: "Disable Mounting of jffs2 Filesystems"
+    rule: "cis_1_1_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_2_21:
+    section_number: "2.21"
+    description: "Disable Mounting of hfs Filesystems"
+    rule: "cis_1_1_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_2_22:
+    section_number: "2.22"
+    description: "Disable Mounting of hfsplus Filesystems"
+    rule: "cis_1_1_1_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_2_23:
+    section_number: "2.23"
+    description: "Disable Mounting of squashfs Filesystems"
+    rule: "cis_1_1_1_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_2_24:
+    section_number: "2.24"
+    description: "Disable Mounting of udf Filesystems"
+    rule: "cis_1_1_1_7"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_2_25:
+    section_number: "2.25"
+    description: "Disable Automounting"
+    rule: "cis_1_1_22"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_3_1:
+    section_number: "3.1"
+    description: "Set User/Group Owner on bootloader config"
+    rule: "cis_1_4_1"
+    compliance: NC
+    compliance_audit: "compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml" 
+  baseline_3_2:
+    section_number: "3.2"
+    description: "Set Permissions on bootloader config"
+    rule: "cis_1_4_1"
+    compliance: NC
+    compliance_audit: "compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml" 
+  baseline_4_3:
+    section_number: "4.3"
+    description: "Enable Randomized Virtual Memory Region Placement"
+    rule: "cis_1_5_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_4_4:
+    section_number: "4.4"
+    description: "Disable Prelink"
+    rule: "cis_1_5_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_4_5:
+    section_number: "4.5"
+    description: "Activate AppArmor"
+    rule: "cis_1_6_2_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_5_1_1:
+    section_number: "5.1.1"
+    description: "Ensure NIS Server is not enabled"
+    rule: "cis_2_2_16"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_3:
+    section_number: "5.1.3"
+    description: "Ensure rsh server is not enabled"
+    rule: "cis_2_1_6"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_4:
+    section_number: "5.1.4"
+    description: "Ensure rsh client is not installed"
+    rule: "cis_2_3_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_5_1_5:
+    section_number: "5.1.5"
+    description: "Ensure talk server is not enabled"
+    rule: "cis_2_1_7"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_6:
+    section_number: "5.1.6"
+    description: "Ensure talk client is not installed"
+    rule: "cis_2_3_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_5_1_7:
+    section_number: "5.1.7"
+    description: "Ensure telnet server is not enabled"
+    rule: "cis_2_1_8"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_8:
+    section_number: "5.1.8"
+    description: "Ensure tftp-server is not enabled"
+    rule: "cis_2_2_17"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_9:
+    section_number: "5.1.9"
+    description: "Ensure xinetd is not enabled"
+    rule: "cis_2_1_11"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_5_1_10:
+    section_number: "5.1.10"
+    description: "Ensure chargen-udp is not enabled"
+    rule: "cis_2_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_11:
+    section_number: "5.1.11"
+    description: "Ensure chargen is not enabled"
+    rule: "cis_2_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_12:
+    section_number: "5.1.12"
+    description: "Ensure daytime-udp is not enabled"
+    rule: "cis_2_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_13:
+    section_number: "5.1.13"
+    description: "Ensure daytime is not enabled"
+    rule: "cis_2_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_14:
+    section_number: "5.1.14"
+    description: "Ensure echo-udp is not enabled"
+    rule: "cis_2_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_15:
+    section_number: "5.1.15"
+    description: "Ensure echo is not enabled"
+    rule: "cis_2_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_16:
+    section_number: "5.1.16"
+    description: "Ensure discard-udp is not enabled"
+    rule: "cis_2_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_17:
+    section_number: "5.1.17"
+    description: "Ensure discard is not enabled"
+    rule: "cis_2_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_18:
+    section_number: "5.1.18"
+    description: "Ensure time-udp is not enabled"
+    rule: "cis_2_1_5"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_5_1_19:
+    section_number: "5.1.19"
+    description: "Ensure time is not enabled"
+    rule: "cis_2_1_5"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_2:
+    section_number: "6.2"
+    description: "Ensure Avahi Server is not enabled"
+    rule: "cis_2_2_3"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_3:
+    section_number: "6.3"
+    description: "Ensure print server is not enabled"
+    rule: "cis_2_2_4"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_4:
+    section_number: "6.4"
+    description: "Ensure DHCP Server is not enabled"
+    rule: "cis_2_2_5"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_5:
+    section_number: "6.5"
+    description: "Configure Network Time Protocol (NTP)"
+    rule: "cis_2_2_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_6_6:
+    section_number: "6.6"
+    description: "Ensure LDAP is not enabled"
+    rule: "cis_2_2_6"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_7:
+    section_number: "6.7"
+    description: "Ensure NFS and RPC are not enabled"
+    rule: "cis_2_2_7"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_8:
+    section_number: "6.8"
+    description: "Ensure DNS Server is not enabled"
+    rule: "cis_2_2_8"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_9:
+    section_number: "6.9"
+    description: "Ensure FTP Server is not enabled"
+    rule: "cis_2_2_9"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_10:
+    section_number: "6.10"
+    description: "Ensure HTTP Server is not enabled"
+    rule: "cis_2_2_10"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_11:
+    section_number: "6.11"
+    description: "Ensure IMAP and POP server is not enabled"
+    rule: "cis_2_2_11"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_12:
+    section_number: "6.12"
+    description: "Ensure Samba is not enabled"
+    rule: "cis_2_2_12"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_13:
+    section_number: "6.13"
+    description: "Ensure HTTP Proxy Server is not enabled"
+    rule: "cis_2_2_13"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_14:
+    section_number: "6.14"
+    description: "Ensure SNMP Server is not enabled"
+    rule: "cis_2_2_14"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_6_15:
+    section_number: "6.15"
+    description: "Configure Mail Transfer Agent for Local-Only Mode"
+    rule: "cis_2_2_15"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_6_16:
+    section_number: "6.16"
+    description: "Ensure rsync service is not enabled"
+    rule: "cis_2_2_18"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml
+  baseline_7_1_1:
+    section_number: "7.1.1"
+    description: "Disable IP Forwarding"
+    rule: "cis_3_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_1:
+    section_number: "7.2.1"
+    description: "Disable Source Routed Packet Acceptance"
+    rule: "cis_3_2_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_2:
+    section_number: "7.2.2"
+    description: "Disable ICMP Redirect Acceptance"
+    rule: "cis_3_2_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_3:
+    section_number: "7.2.3"
+    description: "Disable Secure ICMP Redirect Acceptance"
+    rule: "cis_3_2_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_4:
+    section_number: "7.2.4"
+    description: "Log Suspicious Packets"
+    rule: "cis_3_2_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_7_2_5:
+    section_number: "7.2.5"
+    description: "Enable Ignore Broadcast Requests"
+    rule: "cis_3_2_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_6:
+    section_number: "7.2.6"
+    description: "Enable Bad Error Message Protection"
+    rule: "cis_3_2_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_7:
+    section_number: "7.2.7"
+    description: "Enable RFC-recommended Source Route Validation"
+    rule: "cis_3_2_7"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_2_8:
+    section_number: "7.2.8"
+    description: "Enable TCP SYN Cookies"
+    rule: "cis_3_2_8"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_3_1:
+    section_number: "7.3.1"
+    description: "Disable IPv6 Router Advertisements"
+    rule: "cis_3_3_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_7_4_3:
+    section_number: "7.4.3"
+    description: "Verify Permissions on /etc/hosts.allow"
+    rule: "cis_3_4_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_7_4_5:
+    section_number: "7.4.5"
+    description: "Verify Permissions on /etc/hosts.deny"
+    rule: "cis_3_4_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_7_5_6:
+    section_number: "7.5.6"
+    description: "SuSEfirewall2 is active"
+    rule: "keppel_7_5_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_1:
+    section_number: "8.1.1.1"
+    description: "Configure Audit Log Storage Size"
+    rule: "cis_4_1_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_8_1_1_2:
+    section_number: "8.1.1.2"
+    description: "Disable System on Audit Log Full"
+    rule: "cis_4_1_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_8_1_1_3:
+    section_number: "8.1.1.3"
+    description: "Keep All Auditing Information"
+    rule: "cis_4_1_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_8_1_1_4:
+    section_number: "8.1.1.4"
+    description: "Enable auditd Service"
+    rule: "cis_4_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_5:
+    section_number: "8.1.1.5"
+    description: "Enable Auditing for Processes That Start Prior to auditd"
+    rule: "cis_4_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/suse_12_cis_4_1_3.yml
+  baseline_8_1_1_6:
+    section_number: "8.1.1.6"
+    description: "Record Events That Modify Date and Time Information"
+    rule: "cis_4_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_8_1_1_7:
+    section_number: "8.1.1.7"
+    description: "Record Events That Modify User/Group Information"
+    rule: "cis_4_1_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_8:
+    section_number: "8.1.1.8"
+    description: "Record Events That Modify the System's Network Environment"
+    rule: "cis_4_1_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_9:
+    section_number: "8.1.1.9"
+    description: "Record Events That Modify the System's Mandatory Access Controls"
+    rule: "cis_4_1_7"
+    compliance: NC
+    compliance_audit: compliance_audit/either_value_in_each_expected_value_is_in_each_actual_value.yml 
+  baseline_8_1_1_10:
+    section_number: "8.1.1.10"
+    description: "Collect Login and Logout Events"
+    rule: "cis_4_1_8"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_11:
+    section_number: "8.1.1.11"
+    description: "Collect Session Initiation Information"
+    rule: "cis_4_1_9"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_12:
+    section_number: "8.1.1.12"
+    description: "Collect Discretionary Access Control Permission Modification Events"
+    rule: "cis_4_1_10"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_13:
+    section_number: "8.1.1.13"
+    description: "Collect Unsuccessful Unauthorized Access Attempts to Files"
+    rule: "cis_4_1_11"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_14:
+    section_number: "8.1.1.14"
+    description: "Collect Use of Privileged Commands"
+    rule: "cis_4_1_12"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_8_1_1_15:
+    section_number: "8.1.1.15"
+    description: "Collect Successful File System Mounts"
+    rule: "cis_4_1_13"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_16:
+    section_number: "8.1.1.16"
+    description: "Collect File Deletion Events by User"
+    rule: "cis_4_1_14"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_17:
+    section_number: "8.1.1.17"
+    description: "Collect Changes to System Administration Scope (sudoers)"
+    rule: "cis_4_1_15"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_18:
+    section_number: "8.1.1.18"
+    description: "Collect System Administrator Actions (sudolog)"
+    rule: "cis_4_1_16"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_19:
+    section_number: "8.1.1.19"
+    description: "Collect Kernel Module Loading and Unloading"
+    rule: "cis_4_1_17"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_8_1_1_20:
+    section_number: "8.1.1.20"
+    description: "Make the Audit Configuration Immutable"
+    rule: "cis_4_1_18"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_8_2_2:
+    section_number: "8.2.2"
+    description: "Ensure the rsyslog Service is activated"
+    rule: "cis_4_2_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_8_2_3:
+    section_number: "8.2.3"
+    description: "Configure /etc/rsyslog.conf"
+    rule: "keppel_8_2_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_9_1_1:
+    section_number: "9.1.1"
+    description: "Enable cron Daemon"
+    rule: "cis_5_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_1_2:
+    section_number: "9.1.2"
+    description: "Set User/Group Owner and Permission on /etc/crontab"
+    rule: "cis_5_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_1_3:
+    section_number: "9.1.3"
+    description: "Set User/Group Owner and Permission on /etc/cron.hourly"
+    rule: "cis_5_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_1_4:
+    section_number: "9.1.4"
+    description: "Set User/Group Owner and Permission on /etc/cron.daily"
+    rule: "cis_5_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_9_1_5:
+    section_number: "9.1.5"
+    description: "Set User/Group Owner and Permission on /etc/cron.weekly"
+    rule: "cis_5_1_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_1_6:
+    section_number: "9.1.6"
+    description: "Set User/Group Owner and Permission on /etc/cron.monthly"
+    rule: "cis_5_1_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_1_7:
+    section_number: "9.1.7"
+    description: "Set User/Group Owner and Permission on /etc/cron.d"
+    rule: "cis_5_1_7"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_2_1:
+    section_number: "9.2.1"
+    description: "Set SSH Protocol to 2"
+    rule: "cis_5_2_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_2:
+    section_number: "9.2.2"
+    description: "Set LogLevel to INFO"
+    rule: "cis_5_2_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_3:
+    section_number: "9.2.3"
+    description: "Set Permissions on /etc/ssh/sshd_config"
+    rule: "cis_5_2_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_2_4:
+    section_number: "9.2.4"
+    description: "Disable SSH X11 Forwarding"
+    rule: "cis_5_2_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_5:
+    section_number: "9.2.5"
+    description: "Set SSH MaxAuthTries to 4 or Less"
+    rule: "cis_5_2_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_within_range.yml 
+  baseline_9_2_6:
+    section_number: "9.2.6"
+    description: "Set SSH IgnoreRhosts to Yes"
+    rule: "cis_5_2_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_7:
+    section_number: "9.2.7"
+    description: "Set SSH HostbasedAuthentication to No"
+    rule: "cis_5_2_7"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_8:
+    section_number: "9.2.8"
+    description: "Disable SSH Root Login"
+    rule: "cis_5_2_8"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_9_2_9:
+    section_number: "9.2.9"
+    description: "Set SSH PermitEmptyPasswords to No"
+    rule: "cis_5_2_9"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_10:
+    section_number: "9.2.10"
+    description: "Do Not Allow Users to Set Environment Options"
+    rule: "cis_5_2_10"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_9_2_12:
+    section_number: "9.2.12"
+    description: "Set Idle Timeout Interval for User Login"
+    rule: "cis_5_2_12"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_within_range.yml
+  baseline_9_2_14:
+    section_number: "9.2.14"
+    description: "Set SSH Banner"
+    rule: "cis_5_2_15"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_3_1:
+    section_number: "9.3.1"
+    description: "Set Password Creation Requirement Parameters Using pam_cracklib"
+    rule: "cis_5_3_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_9_3_2:
+    section_number: "9.3.2"
+    description: "Set Lockout for Failed Password Attempts"
+    rule: "cis_5_3_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_9_3_3:
+    section_number: "9.3.3"
+    description: "Limit Password Reuse"
+    rule: "cis_5_3_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_within_range.yml 
+  baseline_10_1_1:
+    section_number: "10.1.1"
+    description: "Set Password Expiration Days"
+    rule: "keppel_10_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/suse_12_keppel_10_1_contains.yml 
+  baseline_10_1_2:
+    section_number: "10.1.2"
+    description: "Set Password Change Minimum Number of Days"
+    rule: "keppel_10_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/suse_12_keppel_10_1_contains.yml
+  baseline_10_1_3:
+    section_number: "10.1.3"
+    description: "Set Password Expiring Warning Days"
+    rule: "keppel_10_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/suse_12_keppel_10_1_contains.yml
+  baseline_10_1_4:
+    section_number: "10.1.4"
+    description: "Disable System Accounts"
+    rule: "cis_5_4_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_10_1_5:
+    section_number: "10.1.5"
+    description: "Set Default Group for root Account"
+    rule: "cis_5_4_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_10_1_6:
+    section_number: "10.1.6"
+    description: "Set Default umask for Users"
+    rule: "cis_5_4_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_10_1_7:
+    section_number: "10.1.7"
+    description: "Lock Inactive User Accounts"
+    rule: "cis_5_4_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_11_1:
+    section_number: "11.1"
+    description: "Set Warning Banner for Standard Login Services"
+    rule: "cis_1_7_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_11_2:
+    section_number: "11.2"
+    description: "Remove OS Information from Login Warning Banners"
+    rule: "cis_1_7_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_12_1:
+    section_number: "12.1"
+    description: "Verify System File Permissions"
+    rule: "cis_6_1_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_12_2:
+    section_number: "12.2"
+    description: "Verify Permissions on /etc/passwd"
+    rule: "cis_6_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_12_3:
+    section_number: "12.3"
+    description: "Verify Permissions on /etc/shadow"
+    rule: "cis_6_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_12_4:
+    section_number: "12.4"
+    description: "Verify Permissions on /etc/group"
+    rule: "cis_6_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_12_5:
+    section_number: "12.5"
+    description: "Verify User/Group Ownership on /etc/passwd"
+    rule: "cis_6_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_12_6:
+    section_number: "12.6"
+    description: "Verify User/Group Ownership on /etc/shadow"
+    rule: "cis_6_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_12_7:
+    section_number: "12.7"
+    description: "Verify User/Group Ownership on /etc/group"
+    rule: "cis_6_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_1:
+    section_number: "13.1"
+    description: "Ensure Password Fields are Not Empty"
+    rule: "cis_6_2_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_2:
+    section_number: "13.2"
+    description: "Verify No Legacy \"+\" Entries Exist in /etc/passwd File"
+    rule: "cis_6_2_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_3:
+    section_number: "13.3"
+    description: "Verify No Legacy \"+\" Entries Exist in /etc/shadow File "
+    rule: "cis_6_2_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_4:
+    section_number: "13.4"
+    description: "Verify No Legacy \"+\" Entries Exist in /etc/group File"
+    rule: "cis_6_2_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_5:
+    section_number: "13.5"
+    description: "Verify No UID 0 Accounts Exist Other Than root"
+    rule: "cis_6_2_5"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_7:
+    section_number: "13.7"
+    description: "Check Permissions on User Home Directories"
+    rule: "cis_6_2_8"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_8:
+    section_number: "13.8"
+    description: "Check User Dot File Permissions"
+    rule: "cis_6_2_10"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_9:
+    section_number: "13.9"
+    description: "Check Permissions on User .netrc Files"
+    rule: "cis_6_2_13"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_10:
+    section_number: "13.10"
+    description: "Check for Presence of User .rhosts Files"
+    rule: "cis_6_2_14"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_11:
+    section_number: "13.11"
+    description: "Check Groups in /etc/passwd"
+    rule: "cis_6_2_15"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_12:
+    section_number: "13.12"
+    description: "Check That Users Are Assigned Valid Home Directories"
+    rule: "cis_6_2_7"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_13:
+    section_number: "13.13"
+    description: "Check User Home Directory Ownership"
+    rule: "cis_6_2_9"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_14:
+    section_number: "13.14"
+    description: "Check for Duplicate UIDs"
+    rule: "cis_6_2_16"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_15:
+    section_number: "13.15"
+    description: "Check for Duplicate GIDs"
+    rule: "cis_6_2_17"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_16:
+    section_number: "13.16"
+    description: "Check for Duplicate User Names"
+    rule: "cis_6_2_18"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_17:
+    section_number: "13.17"
+    description: "Check for Duplicate Group Names"
+    rule: "cis_6_2_19"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_18:
+    section_number: "13.18"
+    description: "Check for Presence of User .netrc Files"
+    rule: "cis_6_2_12"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_19:
+    section_number: "13.19"
+    description: "Check for Presence of User .forward Files"
+    rule: "cis_6_2_11"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_20:
+    section_number: "13.20"
+    description: "Ensure shadow group is empty"
+    rule: "cis_6_2_20"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_21:
+    section_number: "13.21"
+    description: |-
+      "Ensure at least one file(s) named .* in /etc/cron.monthly exists and matches pattern ^\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+/usr/sbin/aide --check
+
+      Ensure at least one file(s) named .* in /etc/cron.weekly exists and matches pattern ^\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+/usr/sbin/aide --check 
+
+      Ensure at least one file(s) named .* in /etc/cron.daily exists and matches pattern ^\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+/usr/sbin/aide --check
+
+      Ensure at least one file(s) named .* in /etc/cron.hourly exists and matches pattern ^\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s+/usr/sbin/aide --check"
+    rule: "keppel_13_21"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_13_22:
+    section_number: "13.22"
+    description: |-
+      "Ensure at least one file named /usr/lib/systemd/system/emergency.service exists and matches pattern ^\\s*ExecStart\\s*=\\s*-/bin/sh\\s+-c\\s+\"\"\\/sbin\\/sulogin;\\s+\\/usr\\/bin\\/systemctl\\s+--fail\\s+--no-block default\"\"\\s*(\\s+#.*)?$
+
+      Ensure at least one file named /usr/lib/systemd/system/rescue.service exists and matches pattern ^\\s*ExecStart\\s*=\\s*-/bin/sh\\s+-c\\s+\"\"\\/sbin\\/sulogin;\\s+\\/usr\\/bin\\/systemctl\\s+--fail\\s+--no-block default\"\"\s*(\\s+#.*)?$"
+    rule: "cis_1_4_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml
+  baseline_13_23:
+    section_number: "13.23"
+    description: |-
+      "Ensure at least one file(s) named .* in /etc/security/limits.d exists and matches pattern ^\\s*\\*\\s+hard\\s+core\\s+0\\s*(\\s+#.*)?$ 
+
+      Ensure at least one file named /etc/security/limits.conf exists and matches pattern ^\\s*\\*\\s+hard\\s+core\\s+0\\s*(\\s+#.*)?$"
+    rule: "cis_1_5_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_13_24:
+    section_number: "13.24"
+    description: "Ensure at least one file named /etc/issue exists and does not match pattern (\\\\v|\\\\r|\\\\m|\\\\s)"
+    rule: "cis_1_7_1_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_25:
+    section_number: "13.25"
+    description: "Ensure at least one file named /etc/issue.net exists and does not match pattern (\\\\v|\\\\r|\\\\m|\\\\s)"
+    rule: "cis_1_7_1_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_26:
+    section_number: "13.26"
+    description: "Ensure package name pattern match '^xorg-x11.*' is not installe"
+    rule: "cis_2_2_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_27:
+    section_number: "13.27"
+    description: |-
+      "Ensure 'net.ipv4.conf.all.secure_redirects' kernel parameter equals 0 (int)
+      Ensure 'net.ipv4.conf.default.secure_redirects' kernel parameter equals 0 (int)"
+    rule: "cis_3_2_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_13_28:
+    section_number: "13.28"
+    description: |-
+      "Ensure 'net.ipv4.conf.default.log_martians' kernel parameter equals 1 (int)
+
+      Ensure 'net.ipv4.conf.all.log_martians' kernel parameter equals 1 (int)"
+    rule: "cis_3_2_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_13_29:
+    section_number: "13.29"
+    description: |-
+      "Ensure 'modprobe -c | grep \"\"^options ipv6 disable=1$\"\"' output pattern match '.+' (string)
+
+      Ensure 'net.ipv6.conf.default.accept_ra' kernel parameter equals 0 (int)
+
+      Ensure 'net.ipv6.conf.all.accept_ra' kernel parameter equals 0 (int)"
+    rule: "cis_3_3_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_13_30:
+    section_number: "13.30"
+    description: |-
+      "Ensure 'modprobe -c | grep \"\"^options ipv6 disable=1$\"\"' output pattern match '.+' (string)
+
+      Ensure 'net.ipv6.conf.all.accept_redirects' kernel parameter equals 0 (int)
+
+      Ensure 'net.ipv6.conf.default.accept_redirects' kernel parameter equals 0 (int)"
+    rule: "cis_3_3_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_expected_value_is_in_each_actual_value.yml 
+  baseline_13_31:
+    section_number: "13.31"
+    description: "Ensure kernel module dccp is not loadable"
+    rule: "cis_3_5_1"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_32:
+    section_number: "13.32"
+    description: "Ensure kernel module sctp is not loadable"
+    rule: "cis_3_5_2"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_33:
+    section_number: "13.33"
+    description: "Ensure kernel module rds is not loadable"
+    rule: "cis_3_5_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml
+  baseline_13_34:
+    section_number: "13.34"
+    description: |-
+      "Ensure kernel module tipc is not loaded
+
+      Ensure kernel module tipc is not loadable"
+    rule: "cis_3_5_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+    
+  baseline_13_37:
+    section_number: "13.37"
+    description: |-
+      "Ensure at least one file named /etc/pam.d/password-auth exists and matches pattern ^password\\s+sufficient\\s+pam_unix\\.so\\s+(\\S+\\s+)*remember=([56789]|[1-9][0-9]+)
+
+      Ensure at least one file named /etc/pam.d/system-auth exists and matches pattern ^password\\s+sufficient\\s+pam_unix\\.so\\s+(\\S+\\s+)*remember=([56789]|[1-9][0-9]+)"
+    rule: "cis_5_3_3"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_within_range.yml 
+  baseline_13_38:
+    section_number: "13.38"
+    description: |-
+      "Ensure password expiration is 90 days or less
+
+      Ensure at least one file named /etc/login.defs exists and matches pattern ^\\s*PASS_MAX_DAYS\\s+(90|[1-8][0-9]|[1-9])\\s*(\\s+#.*)?$"
+    rule: "keppel_13_38"
+    compliance: NC
+    compliance_audit: compliance_audit/suse_12_keppel_10_1_contains.yml 
+  baseline_13_39:
+    section_number: "13.39"
+    description: "Ensure at least one file named /etc/default/useradd exists and matches pattern ^\\s*INACTIVE\\s*=\\s*(30|[1-2][0-9]|[1-9])\\s*(\\s+#.*)?$"
+    rule: "cis_5_4_1_4"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_40:
+    section_number: "13.40"
+    description: "Ensure no world writable files exist"
+    rule: "cis_6_1_10"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_41:
+    section_number: "13.41"
+    description: "Linux Custom Object \"Root Path Directories Are Owned By UID 0 And Not Writable By Group Or Other\""
+    rule: "cis_6_2_6"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_42:
+    section_number: "13.42"
+    description: "Linux Custom Object \"Check For Duplicate User Names\""
+    rule: "cis_6_2_18"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml 
+  baseline_13_43:
+    section_number: "13.43"
+    description: "Linux Custom Object \"Check For Duplicate Group Name\""
+    rule: "cis_6_2_19"
+    compliance: NC
+    compliance_audit: compliance_audit/each_actual_value_is_equal_to_each_expected_value.yml

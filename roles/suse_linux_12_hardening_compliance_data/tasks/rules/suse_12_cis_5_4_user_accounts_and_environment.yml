@@ -1,0 +1,54 @@
+---
+- name: 5.4.2
+  block:
+    - name: 5.4.2 Ensure system accounts are non-login
+      shell: >-
+        egrep -v "^\+" /etc/passwd | awk -F: '($1!="root" && $1!="sync" && $1!="shutdown" && $1!="halt" && $3<1000 && $7!="/sbin/nologin" && $7!="/bin/false") {print}'
+      register: suse_12_cis_5_4_2_out
+
+    - name: 5.4.2 Ensure system accounts are non-login | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_4_2"
+        suse_12_cis_rule_expected_values:
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_4_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_4_2 | bool
+
+- name: 5.4.3
+  block:
+    - name: 5.4.3 Ensure default group for the root account is GID 0
+      shell: >-
+        grep "^root:" /etc/passwd | cut -f4 -d:
+      register: suse_12_cis_5_4_3_out
+
+    - name: 5.4.3 Ensure default group for the root account is GID 0 | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_4_3"
+        suse_12_cis_rule_expected_values:
+          - "0"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_4_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_4_3 | bool
+
+- name: 5.4.4
+  block:
+    - name: 5.4.4 Ensure default user umask is 027 or more restrictive
+      shell: "{{ item }}"
+      loop:
+        - grep "^umask" /etc/bash.bashrc
+        - grep "^umask" /etc/profile
+      register: suse_12_cis_5_4_4_out
+
+    - name: 5.4.4 Ensure default user umask is 027 or more restrictive | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_4_4"
+        suse_12_cis_rule_expected_values:
+          - "umask 027"
+          - "umask 027"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_4_4_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_4_4 | bool

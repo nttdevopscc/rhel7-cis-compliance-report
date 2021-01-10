@@ -1,0 +1,49 @@
+---
+# Compliance audit - suse_12_keppel_10_1_contains #
+###################################################
+# suse_12_rule_key - key of the rule
+# suse_12_baseline_key - key of the baseline being checked
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Display current value of variables
+  debug:
+    msg: |-
+      suse_12_rule_key: {{ suse_12_rule_key }}
+      suse_12_baseline_key: {{ suse_12_baseline_key }}
+    verbosity: 2
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Set values for count variable
+  set_fact:
+    suse_12_audit_match_count: 0
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Check configuration
+  set_fact:
+    suse_12_audit_match_count: "{{ suse_12_audit_match_count  | default(0) | int + 1 }}"
+  when:
+    - suse_12_rules[suse_12_rule_key]['actual_values'][0] is defined
+    - suse_12_rules[suse_12_rule_key]['expected_values'][0] is defined
+    - suse_12_rules[suse_12_rule_key]['actual_values'][0] | regex(suse_12_rules[suse_12_rule_key]['expected_values'][0])
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Check configuration per user
+  set_fact:
+    suse_12_audit_match_count: "{{ suse_12_audit_match_count  | default(0) | int + 1 }}"
+  when:
+    - suse_12_rules[suse_12_rule_key]['actual_values'][1] is defined
+    - suse_12_rules[suse_12_rule_key]['expected_values'][1] is defined
+    - user_configuration_item | regex(suse_12_rules[suse_12_rule_key]['expected_values'][1])
+  loop: "{{ suse_12_rules[suse_12_rule_key]['actual_values'][1] }}"
+  loop_control:
+    loop_var: user_configuration_item
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Mark as compliant
+  set_fact:
+    suse_12_hardening_compliance_baseline_data: "{{ suse_12_hardening_compliance_baseline_data | combine({suse_12_baseline_key: {'compliance': 'C' }}, recursive=true) }}"
+  when:
+    - suse_12_rules[suse_12_rule_key]['actual_values'][1] is defined
+    - suse_12_audit_match_count | int == (suse_12_rules[suse_12_rule_key]['actual_values'][1] | length + 1)
+
+- name: Compliance Audit | {{ suse_12_baseline_key }} | Display compliance
+  debug:
+    msg: |-
+      Number of actual values and expected values matches: {{ suse_12_audit_match_count }}
+      Compliance: {{ suse_12_hardening_compliance_baseline_data[suse_12_baseline_key]['compliance'] }}
+    verbosity: 2

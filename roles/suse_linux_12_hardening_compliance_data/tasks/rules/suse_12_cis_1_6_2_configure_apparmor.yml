@@ -1,0 +1,16 @@
+---
+- name: 1.6.2.1
+  block:
+    - name: 1.6.2.1 Ensure AppArmor is not disabled in bootloader configuration
+      shell: grep "^apparmor" /boot/grub2/grub.cfg | cat
+      register: suse_12_cis_1_6_2_1_out
+
+    - name: 1.6.2.1 Ensure AppArmor is not disabled in bootloader configuration | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_6_2_1"
+        suse_12_cis_rule_expected_values:
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_6_2_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_6_2_1 | bool

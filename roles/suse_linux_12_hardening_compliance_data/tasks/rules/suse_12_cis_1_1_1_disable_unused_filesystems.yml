@@ -1,0 +1,120 @@
+---
+- name: 1.1.1.2
+  block:
+    - name: 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v freevxfs
+        - lsmod | grep freevxfs | cat
+      register: suse_12_cis_1_1_1_2_out
+
+    - name: 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_1_2"
+        suse_12_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_1_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_1_2 | bool
+
+- name: 1.1.1.3
+  block:
+    - name: 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v jffs2
+        - lsmod | grep jffs2 | cat
+      register: suse_12_cis_1_1_1_3_out
+
+    - name: 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_1_3"
+        suse_12_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_1_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_1_3 | bool
+
+- name: 1.1.1.4
+  block:
+    - name: 1.1.1.4 Ensure mounting of hfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v hfs
+        - lsmod | grep hfs | cat
+      register: suse_12_cis_1_1_1_4_out
+
+    - name: 1.1.1.4 Ensure mounting of hfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_1_4"
+        suse_12_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_1_4_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_1_4 | bool
+
+- name: 1.1.1.5
+  block:
+    - name: 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v hfsplus
+        - lsmod | grep hfsplus | cat
+      register: suse_12_cis_1_1_1_5_out
+
+    - name: 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_1_5"
+        suse_12_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_1_5_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_1_5 | bool
+
+- name: 1.1.1.6
+  block:
+    - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v squashfs
+        - lsmod | grep squashfs | cat
+      register: suse_12_cis_1_1_1_6_out
+
+    - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_1_6"
+        suse_12_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_1_6_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_1_6 | bool
+
+- name: 1.1.1.7
+  block:
+    - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v udf
+        - lsmod | grep udf | cat
+      register: suse_12_cis_1_1_1_7_out
+
+    - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_1_1_1_7"
+        suse_12_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        suse_12_cis_rule_output: "{{ suse_12_cis_1_1_1_7_out }}"
+  ignore_errors: true
+  when: suse_12_cis_1_1_1_7 | bool

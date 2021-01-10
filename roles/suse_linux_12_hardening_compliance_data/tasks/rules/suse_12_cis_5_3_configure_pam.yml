@@ -1,0 +1,54 @@
+---
+- name: 5.3.1
+  block:
+    - name: 5.3.1 Ensure password creation requirements are configured
+      shell: grep "^password requisite pam_cracklib.so try_first_pass retry=3 minlen=14 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1" /etc/pam.d/common-password
+      register: suse_12_cis_5_3_1_out
+
+    - name: 5.3.1 Ensure password creation requirements are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_3_1"
+        suse_12_cis_rule_expected_values:
+          - "{{ suse_12_cis_5_3_1_expected_value }}"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_3_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_3_1 | bool
+
+- name: 5.3.2
+  block:
+    - name: 5.3.2 Ensure lockout for failed password attempts is configured
+      shell: "{{ item }}"
+      loop:
+        - grep "^auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900" /etc/pam.d/common-auth
+        - grep "^account required pam_tally2.so" /etc/pam.d/common-account
+      register: suse_12_cis_5_3_2_out
+
+    - name: 5.3.2 Ensure lockout for failed password attempts is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_3_2"
+        suse_12_cis_rule_expected_values:
+          - "auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900"
+          - "account required pam_tally2.so"
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_3_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_3_2 | bool
+
+- name: 5.3.3
+  block:
+    - name: 5.3.3 Ensure password reuse is limited
+      shell: egrep '^password\s+required\s+pam_pwhistory.so' /etc/pam.d/common-password
+      register: suse_12_cis_5_3_3_out
+
+    - name: 5.3.3 Ensure password reuse is limited | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_5_3_3"
+        suse_12_cis_rule_expected_values:
+          - - "password	required	pam_pwhistory.so	remember=[0-9]+"
+            - - 5
+              - 1000
+        suse_12_cis_rule_output: "{{ suse_12_cis_5_3_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_5_3_3 | bool

@@ -1,0 +1,25 @@
+---
+# run command "grep restrict..." twice to accommodate flags -4 and -6 (ipv4 and ipv6)
+- name: 2.2.1.2
+  block:
+    - name: 2.2.1.2 Ensure ntp is configured
+      shell: "{{ item }}"
+      loop:
+        - egrep "^restrict\s+\-4\s+default\s+kod\s+nomodify\s+notrap\s+nopeer\s+noquery" /etc/ntp.conf
+        - egrep "^restrict\s+\-6\s+default\s+kod\s+nomodify\s+notrap\s+nopeer\s+noquery" /etc/ntp.conf
+        - grep "^server\|pool" /etc/ntp.conf | grep -v "^#\|^$"
+        - grep "^NTPD_OPTIONS" /etc/sysconfig/ntp | grep -v "^#\|^$"
+      register: suse_12_cis_2_2_1_2_out
+
+    - name: 2.2.1.2 Ensure ntp is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_2_1_2"
+        suse_12_cis_rule_expected_values:
+          - restrict -4 default kod nomodify notrap nopeer noquery
+          - restrict -6 default kod nomodify notrap nopeer noquery
+          - "server {{ suse_12_cis_2_2_1_2_server_expected_value }}"
+          - NTPD_OPTIONS="-u ntp:ntp"
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_2_1_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_2_1_2 | bool

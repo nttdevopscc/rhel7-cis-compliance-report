@@ -1,0 +1,54 @@
+---
+- name: 4.1.1.1
+  block:
+    - name: 4.1.1.1 Ensure audit log storage size is configured
+      shell: grep -w max_log_file /etc/audit/auditd.conf
+      register: suse_12_cis_4_1_1_1_out
+
+    - name: 4.1.1.1 Ensure audit log storage size is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_1_1"
+        suse_12_cis_rule_expected_values:
+          - "max_log_file = {{ suse_12_cis_4_1_1_1_expected_value }}"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_1_1_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_1_1 | bool
+
+- name: 4.1.1.2
+  block:
+    - name: 4.1.1.2 Ensure system is disabled when audit logs are full
+      shell: "{{ item }}"
+      loop:
+        - grep -w space_left_action /etc/audit/auditd.conf
+        - grep -w action_mail_acct /etc/audit/auditd.conf
+        - grep -w admin_space_left_action /etc/audit/auditd.conf
+      register: suse_12_cis_4_1_1_2_out
+
+    - name: 4.1.1.2 Ensure system is disabled when audit logs are full | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_1_2"
+        suse_12_cis_rule_expected_values:
+          - "space_left_action = email"
+          - "action_mail_acct = root"
+          - "admin_space_left_action = halt"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_1_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_1_2 | bool
+
+- name: 4.1.1.3
+  block:
+    - name: 4.1.1.3 Ensure audit logs are not automatically deleted
+      shell: grep -w max_log_file_action /etc/audit/auditd.conf
+      register: suse_12_cis_4_1_1_3_out
+
+    - name: 4.1.1.3 Ensure audit logs are not automatically deleted | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_4_1_1_3"
+        suse_12_cis_rule_expected_values:
+          - "max_log_file_action = keep_logs"
+        suse_12_cis_rule_output: "{{ suse_12_cis_4_1_1_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_4_1_1_3 | bool

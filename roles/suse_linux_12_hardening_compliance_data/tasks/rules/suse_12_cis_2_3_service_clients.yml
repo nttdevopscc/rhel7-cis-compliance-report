@@ -1,0 +1,32 @@
+---
+- name: 2.3.2
+  block:
+    - name: 2.3.2 Ensure rsh client is not installed
+      shell: rpm -q rsh
+      register: suse_12_cis_2_3_2_out
+
+    - name: 2.3.2 Ensure rsh client is not installed | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_3_2"
+        suse_12_cis_rule_expected_values:
+          - package rsh is not installed
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_3_2_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_3_2 | bool
+
+- name: 2.3.3
+  block:
+    - name: 2.3.3 Ensure talk client is not installed
+      shell: rpm -q talk
+      register: suse_12_cis_2_3_3_out
+
+    - name: 2.3.3 Ensure talk client is not installed | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        suse_12_cis_rule_key: "cis_2_3_3"
+        suse_12_cis_rule_expected_values:
+          - package talk is not installed
+        suse_12_cis_rule_output: "{{ suse_12_cis_2_3_3_out }}"
+  ignore_errors: true
+  when: suse_12_cis_2_3_3 | bool

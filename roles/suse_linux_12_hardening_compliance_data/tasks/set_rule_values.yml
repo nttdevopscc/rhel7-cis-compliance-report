@@ -1,0 +1,36 @@
+---
+# Set rule values #
+###################
+# suse_12_cis_rule_key - key of the rule
+# suse_12_cis_rule_expected_values: list of expected values for the rule
+# suse_12_cis_rule_output - results of running the audit commands
+
+- name: Set Rule Values | {{ suse_12_cis_rule_key }} | Display current value of variables
+  debug:
+    msg: |-
+      suse_12_cis_rule_key: {{ suse_12_cis_rule_key }}
+      suse_12_cis_rule_expected_values: {{ suse_12_cis_rule_expected_values }}
+      suse_12_cis_rule_output: {{ suse_12_cis_rule_output }}
+    verbosity: 2
+
+- name: Set Rule Values | {{ suse_12_cis_rule_key }} | Set expected values
+  set_fact:
+    suse_12_rules: "{{ suse_12_rules | combine({suse_12_cis_rule_key: {'expected_values': suse_12_cis_rule_expected_values}}, recursive=true) }}"
+
+- name: Set Rule Values | {{ suse_12_cis_rule_key }} | Set actual values using results
+  set_fact:
+    suse_12_rules: "{{ suse_12_rules | combine({suse_12_cis_rule_key: {'actual_values':  suse_12_rules[suse_12_cis_rule_key]['actual_values'] + [item['stderr'] if item['stderr']|length and item['rc']|int == 1 else item['stdout'] | trim] }}, recursive=true) }}"
+  loop: "{{ suse_12_cis_rule_output['results'] }}"
+  when: suse_12_cis_rule_output['results'] is defined
+
+- name: Set Rule Values | {{ suse_12_cis_rule_key }} | Set actual value
+  set_fact:
+    suse_12_rules: "{{ suse_12_rules | combine({suse_12_cis_rule_key: {'actual_values':  suse_12_rules[suse_12_cis_rule_key]['actual_values'] + [suse_12_cis_rule_output['stderr'] if suse_12_cis_rule_output['stderr']|length and suse_12_cis_rule_output['rc']|int == 1 else suse_12_cis_rule_output['stdout'] | trim] }}, recursive=true) }}"
+  when: suse_12_cis_rule_output['results'] is not defined
+
+- name: Set Rule Values | {{ suse_12_cis_rule_key }} | Display rule values
+  debug:
+    msg: |-
+      suse_12_rules[{{ suse_12_cis_rule_key }}]['expected_values']: {{ suse_12_rules[suse_12_cis_rule_key]['expected_values'] }}
+      suse_12_rules[{{ suse_12_cis_rule_key }}]['actual_values']: {{ suse_12_rules[suse_12_cis_rule_key]['actual_values'] }}
+    verbosity: 2
