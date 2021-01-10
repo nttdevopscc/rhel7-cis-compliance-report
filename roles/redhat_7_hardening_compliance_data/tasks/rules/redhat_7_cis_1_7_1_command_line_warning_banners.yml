@@ -1,0 +1,112 @@
+---
+- name: 1.7.1.1
+  block:
+    - name: 1.7.1.1 Ensure message of the day is configured properly
+      shell: cat /etc/motd
+      register: redhat_7_cis_1_7_1_1_out
+
+    - name: 1.7.1.1 Ensure message of the day is configured properly | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_1_1"
+        redhat_7_cis_rule_expected_values:
+          - "{{ redhat_7_cis_1_7_1_1_expected_value }}"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_1_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_1_1 | bool
+
+- name: 1.7.1.2
+  block:
+    - name: 1.7.1.2 Ensure local login warning banner is configured properly
+      shell: cat /etc/issue
+      register: redhat_7_cis_1_7_1_2_out
+
+    - name: 1.7.1.2 Ensure local login warning banner is configured properly | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_1_2"
+        redhat_7_cis_rule_expected_values:
+          - "{{ redhat_7_cis_1_7_1_2_expected_value }}"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_1_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_1_2 | bool
+
+- name: 1.7.1.3
+  block:
+    - name: 1.7.1.3 Ensure remote login warning banner is configured properly
+      shell: cat /etc/issue.net
+      register: redhat_7_cis_1_7_1_3_out
+
+    - name: 1.7.1.3 Ensure remote login warning banner is configured properly | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_1_3"
+        redhat_7_cis_rule_expected_values:
+          - "{{ redhat_7_cis_1_7_1_3_expected_value }}"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_1_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_1_3 | bool
+
+- name: 1.7.1.4
+  block:
+    - name: 1.7.1.4 Ensure permissions on /etc/motd are configured
+      shell: stat /etc/motd -c "%a %U %G"
+      register: redhat_7_cis_1_7_1_4_out
+
+    - name: 1.7.1.4 Ensure permissions on /etc/motd are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_1_4"
+        redhat_7_cis_rule_expected_values:
+          - "644 root root"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_1_4_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_1_4 | bool
+
+- name: 1.7.1.5
+  block:
+    - name: 1.7.1.5 Ensure permissions on /etc/issue are configured
+      shell: stat /etc/issue -c "%a %U %G"
+      register: redhat_7_cis_1_7_1_5_out
+
+    - name: 1.7.1.5 Ensure permissions on /etc/issue are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_1_5"
+        redhat_7_cis_rule_expected_values:
+          - "644 root root"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_1_5_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_1_5 | bool
+
+- name: 1.7.1.6
+  block:
+    - name: 1.7.1.6 Ensure permissions on /etc/issue.net are configured
+      shell: stat /etc/issue.net -c "%a %U %G"
+      register: redhat_7_cis_1_7_1_6_out
+
+    - name: 1.7.1.6 Ensure permissions on /etc/issue.net are configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_1_6"
+        redhat_7_cis_rule_expected_values:
+          - "644 root root"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_1_6_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_1_6 | bool
+- name: 1.7.2
+  block:
+    - name: 1.7.2 Ensure GDM login banner is configured
+      shell: cat /etc/dconf/profile/gdm
+      register: redhat_7_cis_1_7_2_out
+
+    - name: 1.7.2 Ensure GDM login banner is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_7_2"
+        redhat_7_cis_rule_expected_values:
+          - "{{ redhat_7_cis_1_7_2_expected_value }}"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_7_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_7_2 | bool
+

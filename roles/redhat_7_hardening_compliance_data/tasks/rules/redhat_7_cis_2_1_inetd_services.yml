@@ -1,0 +1,144 @@
+---
+- name: 2.1.1
+  block:
+    - name: 2.1.1 Ensure chargen services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig --list chargen-dgram
+        - chkconfig --list chargen-stream
+      register: redhat_7_cis_2_1_1_out
+
+    - name: 2.1.1 Ensure chargen services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_1"
+        redhat_7_cis_rule_expected_values:
+          - - chargen-dgram      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+          - - chargen-stream      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_1 | bool
+
+- name: 2.1.2
+  block:
+    - name: 2.1.2 Ensure daytime services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig --list daytime-dgram
+        - chkconfig --list daytime-stream
+      register: redhat_7_cis_2_1_2_out
+
+    - name: 2.1.2 Ensure daytime services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_2"
+        redhat_7_cis_rule_expected_values:
+          - - daytime-dgram      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+          - - daytime-stream      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_2 | bool
+
+- name: 2.1.3
+  block:
+    - name: 2.1.3 Ensure discard services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig --list discard-dgram
+        - chkconfig --list discard-stream
+      register: redhat_7_cis_2_1_3_out
+
+    - name: 2.1.3 Ensure discard services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_3"
+        redhat_7_cis_rule_expected_values:
+          - - discard-dgram      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+          - - discard-stream      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_3 | bool
+
+- name: 2.1.4
+  block:
+    - name: 2.1.4 Ensure echo services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig --list echo-dgram
+        - chkconfig --list echo-stream
+      register: redhat_7_cis_2_1_4_out
+
+    - name: 2.1.4 Ensure echo services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_4"
+        redhat_7_cis_rule_expected_values:
+          - - echo-dgram      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+          - - echo-stream      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_4_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_4 | bool
+
+- name: 2.1.5
+  block:
+    - name: 2.1.5 Ensure time services are not enabled
+      shell: "{{ item }}"
+      loop:
+        - chkconfig --list time-dgram
+        - chkconfig --list time-stream
+      register: redhat_7_cis_2_1_5_out
+
+    - name: 2.1.5 Ensure time services are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_5"
+        redhat_7_cis_rule_expected_values:
+          - - time-dgram      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+          - - time-stream      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_5_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_5 | bool
+
+- name: 2.1.6
+  block:
+    - name: 2.1.6 Ensure tftp server is not enabled
+      shell: chkconfig --list tftp
+      register: redhat_7_cis_2_1_6_out
+
+    - name: 2.1.6 Ensure tftp server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_6"
+        redhat_7_cis_rule_expected_values:
+          - - tftp      0:off   1:off   2:off   3:off   4:off   5:off   6:off
+            - No such file or directory
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_6_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_6 | bool
+
+- name: 2.1.7
+  block:
+    - name: 2.1.7 Ensure xinetd is not enabled
+      shell: systemctl is-enabled xinetd
+      register: redhat_7_cis_2_1_7_out
+
+    - name: 2.1.7 Ensure xinetd is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_1_7"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_1_7_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_1_7 | bool

@@ -1,0 +1,160 @@
+---
+- name: 1.1.1.1
+  block:
+    - name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s cramfs
+        - lsmod | grep cramfs | cat
+      register: redhat_7_cis_1_1_1_1_out
+
+    - name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_1"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_1 | bool
+
+- name: 1.1.1.2
+  block:
+    - name: 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s freevxfs
+        - lsmod | grep freevxfs | cat
+      register: redhat_7_cis_1_1_1_2_out
+
+    - name: 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_2"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_2 | bool
+
+- name: 1.1.1.3
+  block:
+    - name: 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s jffs2
+        - lsmod | grep jffs2 | cat
+      register: redhat_7_cis_1_1_1_3_out
+
+    - name: 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_3"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_3 | bool
+
+- name: 1.1.1.4
+  block:
+    - name: 1.1.1.4 Ensure mounting of hfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s hfs
+        - lsmod | grep hfs | cat
+      register: redhat_7_cis_1_1_1_4_out
+
+    - name: 1.1.1.4 Ensure mounting of hfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_4"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_4_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_4 | bool
+
+- name: 1.1.1.5
+  block:
+    - name: 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s hfsplus
+        - lsmod | grep hfsplus | cat
+      register: redhat_7_cis_1_1_1_5_out
+
+    - name: 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_5"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_5_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_5 | bool
+
+- name: 1.1.1.6
+  block:
+    - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s squashfs
+        - lsmod | grep squashfs | cat
+      register: redhat_7_cis_1_1_1_6_out
+
+    - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_6"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_6_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_6 | bool
+
+- name: 1.1.1.7
+  block:
+    - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s udf
+        - lsmod | grep udf | cat
+      register: redhat_7_cis_1_1_1_7_out
+
+    - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_7"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_7_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_7 | bool
+
+- name: 1.1.1.8
+  block:
+    - name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled
+      shell: "{{ item }}"
+      loop:
+        - modprobe -n -v -s vfat
+        - lsmod | grep vfat | cat
+      register: redhat_7_cis_1_1_1_8_out
+
+    - name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_1_1_1_8"
+        redhat_7_cis_rule_expected_values:
+          - "install /bin/true"
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_1_1_1_8_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_1_1_1_8 | bool

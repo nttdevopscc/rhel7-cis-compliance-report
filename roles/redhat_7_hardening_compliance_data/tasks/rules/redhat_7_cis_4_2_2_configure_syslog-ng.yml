@@ -1,0 +1,32 @@
+---
+- name: 4.2.2.1
+  block:
+    - name: 4.2.2.1 Ensure syslog-ng service is enabled
+      shell: systemctl is-enabled syslog-ng
+      register: redhat_7_cis_4_2_2_1_out
+
+    - name:  4.2.2.1 Ensure syslog-ng service is enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_4_2_2_1"
+        redhat_7_cis_rule_expected_values:
+          - "enabled"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_4_2_2_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_4_2_2_1 | bool
+
+- name: 4.2.2.3
+  block:
+    - name: 4.2.2.3 Ensure syslog-ng default file permissions configured
+      shell: grep ^options /etc/syslog-ng/syslog-ng.conf | grep -v ^#
+      register: redhat_7_cis_4_2_2_3_out
+
+    - name: 4.2.2.3 Ensure syslog-ng default file permissions configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_4_2_2_3"
+        redhat_7_cis_rule_expected_values:
+          - "perm(0640)"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_4_2_2_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_4_2_2_3 | bool

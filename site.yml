@@ -1,24 +1,25 @@
 ---
-- name: Get compliance data from SUSE Linux 12 managed nodes
-  hosts: suse_servers
+
+- name: Get compliance data from Redhat 7 managed nodes
+  hosts: redhat_servers
   strategy: free
   ignore_errors: true
   ignore_unreachable: true
   become: yes
   roles:
-    - suse_linux_12_hardening_compliance_data
+    - redhat_7_hardening_compliance_data
 
-- name: Check compliance of SUSE Linux 12 managed nodes
-  hosts: suse_servers
+- name: Check compliance of Redhat 7 managed nodes
+  hosts: redhat_servers
   ignore_errors: true
   ignore_unreachable: true
   become: yes
   roles:
-    - suse_linux_12_hardening_compliance_audit
+    - redhat_7_hardening_compliance_audit
 
-- name: Generate SUSE Linux 12 hardening compliance report
-  hosts: suse_servers
+- name: Generate Redhat 7 hardening compliance report
+  hosts: redhat_servers
   ignore_errors: true
   ignore_unreachable: true
   roles:
-    - suse_linux_12_hardening_compliance_report
+    - redhat_7_hardening_compliance_report

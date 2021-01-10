@@ -1,0 +1,65 @@
+---
+# run command "grep restrict..." twice to accommodate flags -4 and -6 (ipv4 and ipv6)
+- name: 2.2.1.1
+  block:
+    - name: Ensure time synchronization is in use
+      shell: "{{ item }}"
+      loop:
+        - rpm -q ntp
+        - rpm -q chrony
+      register: redhat_7_cis_2_2_1_1_out
+
+    - name: Ensure time synchronization is in use | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_1_1"
+        redhat_7_cis_rule_expected_values:
+          - "ntp"
+          - "chrony"
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_1_1_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_1_1 | bool
+
+- name: 2.2.1.2
+  block:
+    - name: 2.2.1.2 Ensure ntp is configured
+      shell: "{{ item }}"
+      loop:
+        - grep "^restrict -4" /etc/ntp.conf
+        - grep "^restrict -6" /etc/ntp.conf
+        - grep "server" /etc/ntp.conf | grep -v ^#
+        - grep "^OPTIONS" /etc/sysconfig/ntpd
+      register: redhat_7_cis_2_2_1_2_out
+
+    - name: 2.2.1.2 Ensure ntp is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_1_2"
+        redhat_7_cis_rule_expected_values:
+          - restrict -4 default kod nomodify notrap nopeer noquery
+          - restrict -6 default kod nomodify notrap nopeer noquery
+          - "server {{ redhat_7_cis_2_2_1_2_server_expected_value }}"
+          - 'OPTIONS="-u ntp:ntp"'
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_1_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_1_2 | bool
+
+- name: 2.2.1.3
+  block:
+    - name: 2.2.1.3 Ensure chrony is configured
+      shell: "{{ item }}"
+      loop:
+        - grep "server" /etc/chrony.conf | grep -v ^#
+        - grep "^OPTIONS" /etc/sysconfig/chronyd
+      register: redhat_7_cis_2_2_1_3_out
+
+    - name: 2.2.1.3 Ensure chrony is configured | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_1_3"
+        redhat_7_cis_rule_expected_values:
+          - "server {{ redhat_7_cis_2_2_1_3_server_expected_value }}"
+          - 'OPTIONS="-u chrony"'
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_1_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_1_3 | bool

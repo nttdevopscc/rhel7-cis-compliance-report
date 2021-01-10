@@ -1,0 +1,372 @@
+---
+- name: 2.2.2
+  block:
+    - name: Ensure X Window System is not installed
+#      shell: rpm -qa xorg-x11*
+      shell: for list in `rpm -qa xorg-x11*`; do echo ${list%-*-*}; done
+      register: redhat_7_cis_2_2_2_out
+
+    - name: 2.2.2 Ensure X Window System is not installed | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_2"
+        redhat_7_cis_rule_expected_values:
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_2_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_2 | bool
+
+- name: 2.2.3
+  block:
+    - name: 2.2.3 Ensure Avahi Server is not enabled
+      shell: systemctl is-enabled avahi-daemon
+      register: redhat_7_cis_2_2_3_out
+
+    - name: 2.2.3 Ensure Avahi Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_3"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_3_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_3 | bool
+
+- name: 2.2.4
+  block:
+    - name: 2.2.4 Ensure xinetd is not enabled
+      shell: systemctl is-enabled cups
+      register: redhat_7_cis_2_2_4_out
+
+    - name: 2.2.4 Ensure xinetd is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_4"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_4_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_4 | bool
+
+- name: 2.2.5
+  block:
+    - name: 2.2.5 Ensure DHCP Server is not enabled
+      shell: systemctl is-enabled dhcpd
+      register: redhat_7_cis_2_2_5_out
+
+    - name: 2.2.5 Ensure DHCP Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_5"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_5_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_5 | bool
+
+- name: 2.2.6
+  block:
+    - name: 2.2.6 Ensure LDAP server is not enabled
+      shell: systemctl is-enabled slapd
+      register: redhat_7_cis_2_2_6_out
+
+    - name: 2.2.6 Ensure LDAP server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_6"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_6_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_6 | bool
+
+- name: 2.2.7
+  block:
+    - name: 2.2.7 Ensure NFS and RPC are not enabled
+      shell: "{{ item }}"
+      loop:
+        - systemctl is-enabled nfs
+        - systemctl is-enabled nfs-server
+        - systemctl is-enabled rpcbind
+      register: redhat_7_cis_2_2_7_out
+
+    - name: 2.2.7 Ensure NFS and RPC are not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_7"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+          - - disabled
+            - Failed to get unit file state
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_7_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_7 | bool
+
+- name: 2.2.8
+  block:
+    - name: 2.2.8 Ensure DNS Server is not enabled
+      shell: systemctl is-enabled named
+      register: redhat_7_cis_2_2_8_out
+
+    - name: 2.2.8 Ensure DNS Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_8"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_8_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_8 | bool
+
+- name: 2.2.9
+  block:
+    - name: 2.2.9 Ensure FTP Server is not enabled
+      shell: systemctl is-enabled vsftpd
+      register: redhat_7_cis_2_2_9_out
+
+    - name: 2.2.9 Ensure FTP Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_9"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_9_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_9 | bool
+
+- name: 2.2.10
+  block:
+    - name: 2.2.10 Ensure HTTP server is not enabled
+      shell: systemctl is-enabled httpd
+      register: redhat_7_cis_2_2_10_out
+
+    - name: 2.2.10 Ensure HTTP server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_10"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_10_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_10 | bool
+
+- name: 2.2.11
+  block:
+    - name: 2.2.11 Ensure IMAP and POP3 server is not enabled
+      shell: systemctl is-enabled dovecot
+      register: redhat_7_cis_2_2_11_out
+
+    - name: 2.2.11 Ensure IMAP and POP3 server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_11"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_11_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_11 | bool
+
+- name: 2.2.12
+  block:
+    - name: 2.2.12 Ensure Samba is not enabled
+      shell: systemctl is-enabled smb
+      register: redhat_7_cis_2_2_12_out
+
+    - name: 2.2.12 Ensure Samba is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_12"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_12_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_12 | bool
+
+- name: 2.2.13
+  block:
+    - name: 2.2.13 Ensure HTTP Proxy Server is not enabled
+      shell: systemctl is-enabled squid
+      register: redhat_7_cis_2_2_13_out
+
+    - name: 2.2.13 Ensure HTTP Proxy Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_13"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_13_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_13 | bool
+
+- name: 2.2.14
+  block:
+    - name: 2.2.14 Ensure SNMP Server is not enabled
+      shell: systemctl is-enabled snmpd
+      register: redhat_7_cis_2_2_14_out
+
+    - name: 2.2.14 Ensure SNMP Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_14"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_14_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_14 | bool
+
+- name: 2.2.15
+  block:
+    - name: 2.2.15 Ensure mail transfer agent is configured for local-only mode
+      shell: netstat -an | grep LIST | grep ":25[[:space:]]" | grep -v -E '127.0.0.1|::1'
+      register: redhat_7_cis_2_2_15_out
+
+    - name: 2.2.15 Ensure mail transfer agent is configured for local-only mode | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_15"
+        redhat_7_cis_rule_expected_values:
+          - ""
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_15_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_15 | bool
+
+- name: 2.2.16
+  block:
+    - name: 2.2.16 Ensure NIS Server is not enabled
+      shell: systemctl is-enabled ypserv
+      register: redhat_7_cis_2_2_16_out
+
+    - name: 2.2.16 Ensure NIS Server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_16"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_16_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_16 | bool
+
+- name: 2.2.17
+  block:
+    - name: 2.2.17 Ensure rsh server is not enabled
+      shell: "{{ item }}"
+      loop:
+        - systemctl is-enabled rsh
+        - systemctl is-enabled rlogin
+        - systemctl is-enabled rexec
+      register: redhat_7_cis_2_2_17_out
+
+    - name: 2.2.17 Ensure rsh server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_17"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+          - - disabled
+            - Failed to get unit file state
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_17_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_17 | bool
+
+- name: 2.2.18
+  block:
+    - name: 2.2.18 Ensure talk server is not enabled
+      shell: systemctl is-enabled ntalk
+      register: redhat_7_cis_2_2_18_out
+
+    - name: 2.2.18 Ensure talk server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_18"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_18_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_18 | bool
+
+- name: 2.2.18
+  block:
+    - name: 2.2.18 Ensure talk server is not enabled
+      shell: systemctl is-enabled ntalk
+      register: redhat_7_cis_2_2_18_out
+
+    - name: 2.2.18 Ensure talk server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_18"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_18_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_18 | bool
+
+- name: 2.2.19
+  block:
+    - name: 2.2.19 Ensure telnet server is not enabled
+      shell: systemctl is-enabled telnet
+      register: redhat_7_cis_2_2_19_out
+
+    - name: 2.2.19 Ensure telnet server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_19"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_19_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_19 | bool
+
+- name: 2.2.20
+  block:
+    - name: 2.2.20 Ensure tftp server is not enabled
+      shell: systemctl is-enabled tftp
+      register: redhat_7_cis_2_2_20_out
+
+    - name: 2.2.20 Ensure tftp server is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_20"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_20_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_20 | bool
+
+- name: 2.2.21
+  block:
+    - name: 2.2.21 Ensure rsync service is not enabled
+      shell: systemctl is-enabled rsyncd
+      register: redhat_7_cis_2_2_21_out
+
+    - name: 2.2.21 Ensure rsync service is not enabled | Set Rule Values
+      include_tasks: set_rule_values.yml
+      vars:
+        redhat_7_cis_rule_key: "cis_2_2_21"
+        redhat_7_cis_rule_expected_values:
+          - - disabled
+            - Failed to get unit file state
+        redhat_7_cis_rule_output: "{{ redhat_7_cis_2_2_21_out }}"
+  ignore_errors: true
+  when: redhat_7_cis_2_2_21 | bool
