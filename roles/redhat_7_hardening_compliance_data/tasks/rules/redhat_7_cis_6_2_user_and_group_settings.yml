@@ -85,7 +85,6 @@
   block:
     - name: 6.2.6 Ensure root PATH Integrity
       script: redhat_7_cis_6_2_6.sh
-      chdir: /home/ansible
       register: redhat_7_cis_6_2_6_out
 
     - name: 6.2.6 Ensure root PATH Integrity | Set Rule Values
