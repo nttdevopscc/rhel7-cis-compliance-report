@@ -3,7 +3,7 @@
 
 # Inventory #
 #############
-group_name: redhat_servers
+group_name: rhel7-group
 
 # Hardening Compliance Summary #
 ################################

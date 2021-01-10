@@ -5,4 +5,4 @@ redhat_7_hardening_compliance_directory: /home/awx/linux_hardening_compliance_re
 
 # Inventory #
 #############
-group_name: redhat_servers
+group_name: rhel7-group
