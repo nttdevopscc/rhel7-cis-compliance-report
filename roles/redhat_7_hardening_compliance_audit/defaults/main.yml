@@ -3,7 +3,7 @@
 
 # Inventory #
 #############
-group_name: rhel7-group
+group_name: rhel7_group
 
 # Hardening Compliance Summary #
 ################################

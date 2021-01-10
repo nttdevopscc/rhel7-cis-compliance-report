@@ -1,7 +1,7 @@
 ---
 
 - name: Get compliance data from Redhat 7 managed nodes
-  hosts: rhel7-group
+  hosts: rhel7_group
   strategy: free
   ignore_errors: true
   ignore_unreachable: true
@@ -10,7 +10,7 @@
     - redhat_7_hardening_compliance_data
 
 - name: Check compliance of Redhat 7 managed nodes
-  hosts: rhel7-group
+  hosts: rhel7_group
   ignore_errors: true
   ignore_unreachable: true
   become: yes
@@ -18,7 +18,7 @@
     - redhat_7_hardening_compliance_audit
 
 - name: Generate Redhat 7 hardening compliance report
-  hosts: rhel7-group
+  hosts: rhel7_group
   ignore_errors: true
   ignore_unreachable: true
   roles:

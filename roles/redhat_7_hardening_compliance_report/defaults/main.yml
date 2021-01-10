@@ -6,4 +6,4 @@ redhat_7_hardening_compliance_directory2: /var/www/html
 
 # Inventory #
 #############
-group_name: rhel7-group
+group_name: rhel7_group
