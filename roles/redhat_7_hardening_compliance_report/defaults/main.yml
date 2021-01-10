@@ -1,7 +1,8 @@
 ---
 # Avoid modifying this file, and overwrite values in /vars instead
 
-redhat_7_hardening_compliance_directory: /home/awx/linux_hardening_compliance_report
+redhat_7_hardening_compliance_directory: /home/ansible/linux_hardening_compliance_report
+redhat_7_hardening_compliance_directory2: /var/www/html
 
 # Inventory #
 #############
